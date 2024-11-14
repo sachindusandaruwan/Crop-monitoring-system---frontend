@@ -1,0 +1,80 @@
+.dashboard {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    display: grid;
+    grid-template-columns: 80px calc(100vw - 80px); /* Adjusted width of sidebar */
+    grid-template-rows: 80px auto; /* Headbar height */
+    grid-template-areas:
+        "navbar headbar"
+        "navbar main";
+    overflow: hidden; /* Prevent scrolling */
+
+    /* Outline (border) */
+    border: 2px solid #ccc; /* Light gray border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow around */
+  }
+  
+  .dashboardnavbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100vh; /* Full height of the viewport */
+    background-color: #ffffff;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+    grid-area: navbar;
+    z-index: 999; /* Ensure it's above main content */
+    place-content: center;
+
+    /* Outline (border) */
+    border: 5px solid #ccc; /* Light gray border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow around */
+  }
+  
+  .dashboardnavbar img {
+    width: 35px;
+    margin: 10px 0;
+
+  }
+  
+  .dashboardnavbar img:hover {
+    transform: scale(1.2);
+    border-radius: 50%;
+    background-color: #99fa7e;
+    padding: 5px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .icon-wrapper {
+    position: relative;
+    
+  }
+  
+  .tooltip {
+    width: 180px;
+    visibility: hidden;
+    background-color:#99fa7e;
+    color: #000000;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .icon-wrapper:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+  
