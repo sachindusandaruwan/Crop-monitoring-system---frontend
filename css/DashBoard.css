@@ -1,80 +1,126 @@
-.dashboard {
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    background-color: rgb(255, 255, 255);
-    display: grid;
-    grid-template-columns: 80px calc(100vw - 80px); /* Adjusted width of sidebar */
-    grid-template-rows: 80px auto; /* Headbar height */
-    grid-template-areas:
-        "navbar headbar"
-        "navbar main";
-    overflow: hidden; /* Prevent scrolling */
+/* General body styles */
+body {
+  background: radial-gradient(white, #5bfaa2);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
 
-    /* Outline (border) */
-    border: 2px solid #ccc; /* Light gray border */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow around */
-  }
-  
-  .dashboardnavbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100px;
-    height: 100vh; /* Full height of the viewport */
-    background-color: #ffffff;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 0;
-    grid-area: navbar;
-    z-index: 999; /* Ensure it's above main content */
-    place-content: center;
+/* Main container styles */
+body > div {
+  width: 90%;
+  height: 90%;
+  background-size: cover;
+  border: 2px solid black;
+  display: flex;
+}
 
-    /* Outline (border) */
-    border: 5px solid #ccc; /* Light gray border */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow around */
-  }
-  
-  .dashboardnavbar img {
-    width: 35px;
-    margin: 10px 0;
+/* Nav bar styles */
+.main-container .nav-bar {
+  width: 6vw;
+  background-color: #ffffff;
+  border-right: 2px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 1rem;
+}
 
+
+.main-container .nav-bar .logo{
+  height: 120px;
+}
+
+
+/* Logo styling */
+.main-container .nav-bar .logo img {
+  width: 2vw;
+  height: auto;
+  /* margin-bottom: 2rem; */
+  margin-bottom: 48px;
+
+}
+
+/* Nav bar icons and tooltip styles */
+.main-container .nav-bar .nav-bar-icon-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.main-container .nav-bar .nav-bar-icon-content .icon-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-container .nav-bar .nav-bar-icon-content .icon-wrapper img {
+  width: 2vw;
+  height: 2vw;
+}
+
+
+.main-container .nav-bar .nav-bar-icon-content .icon-wrapper:hover .tooltip {
+  opacity: 1;
+}
+
+/* Frame styles */
+.main-container .w-100 iframe {
+  border: none;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1440px) {
+  body > div {
+    width: 90%;
   }
-  
-  .dashboardnavbar img:hover {
-    transform: scale(1.2);
-    border-radius: 50%;
-    background-color: #99fa7e;
-    padding: 5px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 1024px) {
+  body > div {
+    width: 98%;
   }
-  
-  .icon-wrapper {
-    position: relative;
-    
+  .main-container .nav-bar .nav-bar-icon-content .icon-wrapper img {
+    width: 2.5vw;
+    height: 2.5vw;
   }
-  
-  .tooltip {
-    width: 180px;
-    visibility: hidden;
-    background-color:#99fa7e;
-    color: #000000;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
-    position: absolute;
-    top: 50%;
-    left: 40px;
-    transform: translateY(-50%);
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
+  .main-container .nav-bar .logo img {
+    width: 3vw;
   }
-  
-  .icon-wrapper:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-  }
-  
+}
+
+.icon-wrapper img:hover{
+  transform: scale(1.4);
+  border-radius: 50%;
+  background-color:white;
+  padding: 5px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip {
+  width: 180px;
+  visibility: hidden;
+  background-color: white;
+  color: #000000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.icon-wrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
