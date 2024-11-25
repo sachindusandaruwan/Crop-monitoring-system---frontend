@@ -1,6 +1,7 @@
 /* General body styles */
 body {
-  background: radial-gradient(white, #5bfaa2);
+  background: radial-gradient(circle, #ffffff, #e8f9e8, #c3f1c3, #96e096);
+  
   width: 100%;
   height: 100vh;
   display: flex;
@@ -11,12 +12,15 @@ body {
 
 /* Main container styles */
 body > div {
+  background: radial-gradient(circle, #ffffff, #d5f6d5, #b3e6b3, #80d480);
+  
   width: 90%;
   height: 90%;
   background-size: cover;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   display: flex;
 }
+
 
 /* Nav bar styles */
 .main-container .nav-bar {
@@ -61,8 +65,8 @@ body > div {
 }
 
 .main-container .nav-bar .nav-bar-icon-content .icon-wrapper img {
-  width: 2vw;
-  height: 2vw;
+  width: 1.7vw;
+  height: 1.7vw;
 }
 
 
