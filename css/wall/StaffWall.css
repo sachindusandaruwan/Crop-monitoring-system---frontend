@@ -9,8 +9,12 @@ input {
   border: 1px solid #dcdcdc;
   background: #fff;
   width: 25vw;
-  height: 43px;
+  height: 33px;
   font-size: 1vw;
+}
+.form-floating input {
+ padding-top: 8px;
+ padding-bottom: 8px;
 }
 
 input + button {
@@ -25,7 +29,12 @@ input + button {
   font-size: 1vw;
   font-weight: 600;
   letter-spacing: 0.6px;
-  border: 2px solid black;
+
+}
+
+.float-end{
+  width: 30px;
+  height: 30px;
 }
 
 .table .table-head > div,
@@ -54,7 +63,7 @@ input + button {
 }
 
 .table .table-head > div {
-  border-radius: 15px 15px 0 0;
+ 
   z-index: 1000;
   border-bottom: 1px solid;
 }
@@ -184,10 +193,169 @@ svg {
 }
 
 .icon {
-  position: relative;
+  /* position: relative; */
   left: 0.5rem;
   fill: #9e9ea7;
   width: 1rem;
   height: 1rem;
 }
+
+/* //////////////////////////// */
+
+
+
+
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.position-absolute {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.main-container {
+  width: 90%;
+  max-width: 1000px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: relative;
+}
+
+/* Header Styling */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 40px; /* Adds space below the image */
+}
+
+/* Content Styling */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; /* Space between containers */
+}
+
+/* Container A and B Styling */
+.containerA, .containerB {
+  /* border: 1px solid #ccc; */
+  padding: 15px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.box1 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 300px) {
+  .content {
+      grid-template-columns: 1fr; /* Stacks containers vertically on smaller screens */
+  }
+
+  .main-container {
+      padding: 15px; /* Adjust padding for smaller devices */
+  }
+
+  .title {
+      font-size: 20px; /* Adjust title size */
+      margin-top: 20px; /* Adjust spacing */
+  }
+
+  .close-icon {
+      width: 20px; /* Adjust size of the close icon */
+      height: 20px;
+  }
+  .containerA{
+      padding-bottom: 0px
+  }
+  .containerB{
+      padding-top: 0px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-container {
+      width: 95%; /* Slightly increase width for narrow screens */
+      padding: 10px;
+  }
+
+  .title {
+      font-size: 18px; /* Further reduce title size */
+  }
+
+  label {
+      font-size: 12px; /* Adjust label font size */
+  }
+
+  input {
+      padding: 6px;
+      font-size: 12px; /* Smaller input text */
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main-container {
+      padding: 8px;
+  }
+
+  .title {
+      font-size: 16px; /* Reduce title size further for very small devices */
+  }
+
+  .close-icon {
+      width: 18px; /* Smaller close icon */
+      height: 18px;
+  }
+
+  label {
+      font-size: 11px;
+  }
+
+  input {
+      padding: 5px;
+      font-size: 11px;
+  }
+}
+
 
