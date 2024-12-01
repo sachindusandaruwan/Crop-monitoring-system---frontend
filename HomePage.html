@@ -1,148 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-    crossorigin="anonymous"
-  />
-  <link rel="stylesheet" href="/css/HomePage.css">
-</head>
-
-<body>
-  <div class="main-container d-flex">
-    <div class="nav-bar text-center">
-      <div class="logo">
-        <img class="mt-5" src="/assests/icon/dashBoard.png" alt="logo" />
-      </div>
-      
-      <div
-        class="nav-bar-icon-content"
-      >
-        <div class="icon-wrapper">
-          <img class="dashboard-icon" src="/assests/icon/dashBoard.png" />
-          <span class="tooltip">DashBoard</span>
-        </div>
-        <div class="icon-wrapper">
-          <img class="rqu_icon" src="/assests/icon/equipment.png" />
-          <span class="tooltip">Equipment Management</span>
-          <!-- staff-icon -->
-        </div>
-        <div class="icon-wrapper">
-          <img class="crop_icon" src="/assests/icon/crop.png" />
-          <span class="tooltip">Crop Management</span>
-          <!-- vehicle -->
-        </div>
-        <div class="icon-wrapper">
-          <img class="staff-icon" src="/assests/icon/staff.png" />
-          <span class="tooltip">Staff Management</span>
-          <!-- field-icon -->
-        </div>
-        <div class="icon-wrapper">
-          <img class="vehicle" src="/assests/icon/vehicle.png" />
-          <span class="tooltip">Vehicle Management</span>
-          <!-- rqu_icon -->
-        </div>
-        <div class="icon-wrapper">
-          <img class="monitor_log" src="/assests/icon/monitoringLog.png" />
-          <span class="tooltip">monitor Log Management</span>
-          <!-- crop_icon -->
-        </div>
-        <div class="icon-wrapper">
-          <img class="field-icon" src="/assests/icon/field.png" />
-          <span class="tooltip">Field Management</span>
-          <!-- monitor_log -->
-        </div>
-        <!-- <div>
-          <img class="monitor_log" src="/assests/logout.png" />
-          <span class="tooltip">Crop Management</span>
-        </div> -->
-      </div>
-    
-    </div>
-    <div class="w-100">
-      <iframe
-        class="main-wall w-100 h-100"
-        src="/page/DashBoard.html"
-        frameborder="0"
-      ></iframe>
-    </div>
-  </div>
-
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Dashboard</title>
+    <link rel="stylesheet" href="/css/HomePage.css">
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
+</head>
+<body>
+    <div class="main-form">
+        <nav class="navbar">
+            <img src="assests/logo.png" alt="Logo" class="logo1" />
+            <div class="nav-iconset">
+                <img src="/assests/icon/dashBoard.png" alt="Dashboard" class="logo dashboard-icon" />
+                <img src="/assests/icon/crop.png" alt="Analytics" class="logo crop-icon" />
+                <img src="/assests/icon/equipment.png" alt="Settings" class="logo equipment-icon" />
+                <img src="/assests/icon/field.png" alt="Profile" class="logo field-icon" />
+                <img src="/assests/icon/monitoringLog.png" alt="Dashboard" class="logo monitoringLog-icon" />
+                <img src="/assests/icon/vehicle.png" alt="Analytics" class="logo vehicle-icon" />
+                <img src="/assests/icon/staff.png" alt="Settings" class="logo staff-icon" />
+            </div>
+            <div class="logout">
+                <img src="/assests/icon/logout.png" alt="Logout" class="logo" />
+                
+            </div>
+        </nav>
+        <div class="iframe-div">
+            <iframe src="page/cropWall.html" title="Dashboard Content"></iframe>
+        </div>
+    </div>
     <script>
-      $(".dashboard-icon").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/DashBoard.html"
-        );
-      });
-
-      $(".staff-icon").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/StaffWall.html"
-        );
-      });
-
-      $(".vehicle").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/VehicleWall.html"
-        );
-      });
-
-      $(".field-icon").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/FieldWall.html"
-        );
-      });
-
-      $(".rqu_icon").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/EquipmentWall.html"
-        );
-      });
-
-      $(".crop_icon").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/CropWall.html"
-        );
-      });
-
-      $(".monitor_log").click(function () {
-        
-        $(".main-container .main-wall").attr(
-          "src",
-          "/page/MonitoringLogWall.html"
-        );
-      });
-
-      
+        // Event listener for changing iframe content
+        $(".dashboard-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/DashBoard.html");
+        });
+        $(".staff-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/StaffWall.html");
+        });
+        $(".equipment-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/Equipment.html");
+        });
+        $(".field-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/FieldWall.html");
+        });
+        $(".monitoringLog-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/MonitoringLogWall.html");
+        });
+        $(".vehicle-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/VehicleWall.html");
+        });
+        $(".crop-icon").on("click", function () {
+            $(".iframe-div iframe").attr("src", "/page/CropWall.html");
+        });
     </script>
-
 </body>
 </html>
