@@ -1,0 +1,88 @@
+.stf-main-dive {
+    grid-template-rows: auto auto auto;
+  }
+  .topic {
+    padding-bottom: 30px;
+  }
+  .serach-br-and-add-btn {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+    padding-bottom: 50px;
+  }
+  
+  .action {
+    display: flex;
+  }
+  
+  .table tbody .action > :first-child:hover path {
+    fill: #3700fd;
+    transition: 0.5s;
+  }
+  
+  .table tbody .action > :nth-child(2):hover path {
+    fill: #fa0000;
+    transition: 0.5s;
+  }
+  
+  .table tbody .action > :nth-child(3):hover path {
+    fill: #33ff00;
+    transition: 0.5s;
+  }
+  
+  .Add-btn button{
+    border-radius: 60px;
+    background: radial-gradient(circle, #1aff1a, #0f660f, #000000);
+  }
+  
+  
+  /* add button */
+  /* From Uiverse.io by LightAndy1 */ 
+  .group {
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    position: relative;
+    max-width: 190px;
+  }
+  
+  .input {
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 2.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: 0.3s ease;
+  }
+  
+  .input::placeholder {
+    color: #9e9ea7;
+  }
+  
+  .input:focus,
+  input:hover {
+    outline: none;
+    border-color: rgba(0, 48, 73, 0.4);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
+  }
+  
+  .icon {
+    position: absolute;
+    left: 1rem;
+    fill: #9e9ea7;
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  #viewStaffModal , #updteStaffModal{
+    display: none;
+    animation: wipe 0.2s ease-in-out;
+  }
+  
+  

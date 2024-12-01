@@ -37,7 +37,7 @@
           <button
             class="btn btn-primary mb-3 btn-sm"
             data-bs-toggle="modal"
-            data-bs-target="#updteStaffModal"
+            data-bs-target="#saveCropModal"
           >
             Add New Staff
           </button>
@@ -45,6 +45,102 @@
       </div>
 
       <!-- Modal for Adding New Staff -->
+      <div
+        class="modal fade"
+        id="saveCropModal"
+        tabindex="-1"
+        aria-labelledby="addStaffModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addStaffModalLabel">Save Crop</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="staffForm">
+                <div class="row">
+                  <!-- Name Fields -->
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label"
+                      >Crop Common Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="firstName"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Crop Type</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lastName"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="designation" class="form-label"
+                    >Crop Scientific Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="designation"
+                    required
+                  />
+                </div>
+
+                <!-- Address Fields -->
+                <div class="mb-3">
+                  <label for="addressLine1" class="form-label"
+                    >Crop Season</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="addressLine1"
+                    required
+                  />
+                </div>
+                <div class="mt-3 mb-4">
+                  <form class="file-upload-form w-100">
+                    <label for="file" class="file-upload-label w-100">
+                      <div class="file-upload-design">
+                        <svg viewBox="0 0 640 512" height="1em">
+                          <path
+                            d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"
+                          ></path>
+                        </svg>
+                        <p>Drag and Drop</p>
+                        <p>or</p>
+                        <span class="browse-button">Browse file</span>
+                      </div>
+                      <input id="file" type="file" />
+                    </label>
+                  </form>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                  save crop
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end pop save -->
+      <!--start pop update -->
+
       <div
         class="modal fade"
         id="updteStaffModal"
@@ -129,9 +225,21 @@
                     </label>
                   </form>
                 </div>
+                <div class="form-floating mb-3">
+                  <select
+                    class="form-control gender-combo"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                  >
+                    <option value="" disabled selected>Select a Field</option>
+                    <option value="Female">F-013122</option>
+                    <option value="Male">E-23231</option>
+                  </select>
+                  <label for="floatingSelect">Field</label>
+                </div>
 
                 <button type="submit" class="btn btn-primary w-100">
-                  Save crop
+                  update crop
                 </button>
               </form>
             </div>
@@ -139,11 +247,97 @@
         </div>
       </div>
 
-      <!--start pop update -->
-
       <!-- end pop Update -->
 
       <!-- start pop view -->
+
+      <div
+      class="modal fade"
+      id="viewCropModal"
+      tabindex="-1"
+      aria-labelledby="addStaffModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addStaffModalLabel">View Crop</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="staffForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label"
+                    >Crop Code</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label"
+                    >Crop Common Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Crop Type</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="designation" class="form-label"
+                  >Crop Scientific Name</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="designation"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="addressLine1" class="form-label"
+                  >Crop Season</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="addressLine1"
+                  required
+                />
+              </div>
+              <div class="mt-3 mb-4 w-100 field-img">
+                <img
+                  class="w-100"
+                  src="/assests/WhatsApp Image 2024-10-31 at 13.54.48.jpeg"
+                  alt=""
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
       <!-- end pop view -->
       <div class="card-content">
@@ -735,16 +929,16 @@
 
     <script>
       document
-        .querySelectorAll(".table tbody .action > :nth-child(3)")
+        .querySelectorAll(".action > :nth-child(3)")
         .forEach((button) => {
           button.addEventListener("click", () => {
-            const modalElement = document.getElementById("viewStaffModal");
+            const modalElement = document.getElementById("viewCropModal");
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
           });
         });
       document
-        .querySelectorAll(".table tbody .action > :nth-child(1)")
+        .querySelectorAll(".action > :nth-child(1)")
         .forEach((button) => {
           button.addEventListener("click", () => {
             const modalElement = document.getElementById("updteStaffModal");
