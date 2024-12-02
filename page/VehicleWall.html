@@ -19,7 +19,7 @@
   <body class="p-3 pb-0 bg-transparent">
     <div class="stf-main-div">
       <div class="topic">
-        <h2>Staff mangement</h2>
+        <h2>Vehicle mangement</h2>
       </div>
       <div class="serach-br-and-add-btn">
         <div class="group">
@@ -32,22 +32,19 @@
           </svg>
           <input class="input" type="search" placeholder="Search" />
         </div>
-
-        <div class="Add-btn">
-          <button
-            class="btn btn-primary mb-3 btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#addStaffModal"
-          >
-            Add New Vehicle
-          </button>
-        </div>
+        <button
+          class="button"
+          data-bs-toggle="modal"
+          data-bs-target="#addVehicleModal"
+        >
+          Add Staff
+        </button>
       </div>
 
       <!-- Modal for Adding New Vehicle -->
       <div
         class="modal fade"
-        id="addStaffModal"
+        id="addVehicleModal"
         tabindex="-1"
         aria-labelledby="addStaffModalLabel"
         aria-hidden="true"
@@ -123,7 +120,7 @@
 
       <div
         class="modal fade"
-        id="updteStaffModal"
+        id="updteVehicleModal"
         tabindex="-1"
         aria-labelledby="addStaffModalLabel"
         aria-hidden="true"
@@ -212,7 +209,7 @@
 
       <div
         class="modal fade"
-        id="viewStaffModal"
+        id="viewVehicleModal"
         tabindex="-1"
         aria-labelledby="addStaffModalLabel"
         aria-hidden="true"
@@ -476,7 +473,7 @@
         .querySelectorAll(".table tbody .action > :nth-child(3)")
         .forEach((button) => {
           button.addEventListener("click", () => {
-            const modalElement = document.getElementById("viewStaffModal");
+            const modalElement = document.getElementById("viewVehicleModal");
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
           });
@@ -485,7 +482,7 @@
         .querySelectorAll(".table tbody .action > :nth-child(1)")
         .forEach((button) => {
           button.addEventListener("click", () => {
-            const modalElement = document.getElementById("updteStaffModal");
+            const modalElement = document.getElementById("updteVehicleModal");
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
           });

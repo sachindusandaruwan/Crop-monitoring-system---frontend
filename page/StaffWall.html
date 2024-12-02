@@ -33,7 +33,7 @@
           <input class="input" type="search" placeholder="Search" />
         </div>
 
-        <div class="Add-btn">
+        <!-- <div class="Add-btn">
           <button
             class="btn btn-primary mb-3 btn-sm"
             data-bs-toggle="modal"
@@ -41,7 +41,15 @@
           >
             Add New Staff
           </button>
-        </div>
+        </div> -->
+
+        <button
+          class="button"
+          data-bs-toggle="modal"
+          data-bs-target="#addStaffModal"
+        >
+          Add Staff
+        </button>
       </div>
 
       <!-- Modal for Adding New Staff -->
@@ -642,21 +650,24 @@
     ></script>
 
     <script>
-      document.querySelectorAll(".table tbody .action > :nth-child(3)").forEach((button) => {
-        button.addEventListener("click", () => {
-          const modalElement = document.getElementById("viewStaffModal");
-          const modal = new bootstrap.Modal(modalElement);
-          modal.show();
+      document
+        .querySelectorAll(".table tbody .action > :nth-child(3)")
+        .forEach((button) => {
+          button.addEventListener("click", () => {
+            const modalElement = document.getElementById("viewStaffModal");
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+          });
         });
-      });
-      document.querySelectorAll(".table tbody .action > :nth-child(1)").forEach((button) => {
-        button.addEventListener("click", () => {
-          const modalElement = document.getElementById("updteStaffModal");
-          const modal = new bootstrap.Modal(modalElement);
-          modal.show();
+      document
+        .querySelectorAll(".table tbody .action > :nth-child(1)")
+        .forEach((button) => {
+          button.addEventListener("click", () => {
+            const modalElement = document.getElementById("updteStaffModal");
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+          });
         });
-      });
     </script>
-    
   </body>
 </html>

@@ -1,5 +1,7 @@
 
-
+body{
+  font-family: 'Times New Roman', Times, serif;
+}
 /* From Uiverse.io by vinodjangid07 */ 
 .file-upload-form {
   display: flex;
@@ -55,13 +57,6 @@
   padding-bottom: 50px;
 }
 
-
-.Add-btn button{
-  border-radius: 60px;
-  background: radial-gradient(circle, #1aff1a, #0f660f, #000000);
-}
-
-
 /* add button */
 /* From Uiverse.io by LightAndy1 */ 
 .group {
@@ -69,7 +64,7 @@
   line-height: 28px;
   align-items: center;
   position: relative;
-  max-width: 190px;
+  max-width: 290vw;
 }
 
 .input {
@@ -81,7 +76,7 @@
   border: 2px solid transparent;
   border-radius: 8px;
   outline: none;
-  background-color: #f3f3f4;
+  background-color: white;
   color: #0d0c22;
   transition: 0.3s ease;
 }
@@ -151,8 +146,13 @@ input:hover {
   grid-template-rows: auto;
 }
 
-
-
+/* save-update-button */
+.modal-body .btn {
+  background: green;
+}
+.modal-content {
+  border: 2px solid green;
+}
 
 .action {
   display: flex;
@@ -171,6 +171,45 @@ input:hover {
   fill: #33ff00;
   transition: 0.5s;
 }
+
+
+/* add button-From Uiverse.io by gharsh11032000 */
+.button {
+  position: relative;
+  width: 120px;
+  height: 40px;
+  background-color: green;
+  display: flex;
+  align-items: center;
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+  border: none;
+  padding: 12px;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left: -4px;
+  top: -1px;
+  margin: auto;
+  width: 128px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(-45deg, rgb(1, 145, 1) 0%, white 100%);
+  z-index: -10;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+
+
 
 
 

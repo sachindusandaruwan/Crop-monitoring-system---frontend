@@ -33,15 +33,13 @@
           <input class="input" type="search" placeholder="Search" />
         </div>
 
-        <div class="Add-btn">
-          <button
-            class="btn btn-primary mb-3 btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#saveCropModal"
-          >
-            Add New Staff
-          </button>
-        </div>
+        <button
+          class="button"
+          data-bs-toggle="modal"
+          data-bs-target="#saveCropModal"
+        >
+          Add Staff
+        </button>
       </div>
 
       <!-- Modal for Adding New Staff -->
@@ -261,7 +259,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addStaffModalLabel">View Crop</h5>
+            <h5 class="modal-title" id="addStaffModalLabel">Save Crop</h5>
             <button
               type="button"
               class="btn-close"
@@ -272,6 +270,7 @@
           <div class="modal-body">
             <form id="staffForm">
               <div class="row">
+                <!-- Name Fields -->
                 <div class="col-md-6 mb-3">
                   <label for="firstName" class="form-label"
                     >Crop Code</label
@@ -315,6 +314,8 @@
                   required
                 />
               </div>
+
+              <!-- Address Fields -->
               <div class="mb-3">
                 <label for="addressLine1" class="form-label"
                   >Crop Season</label
@@ -333,6 +334,8 @@
                   alt=""
                 />
               </div>
+
+              
             </form>
           </div>
         </div>
