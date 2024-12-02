@@ -15,8 +15,9 @@
     />
 
     <link rel="stylesheet" href="/css/wall/StaffWall.css" />
+    <link rel="stylesheet" href="/css/General.css">
   </head>
-  <body class="p-3 pb-0 bg-transparent">
+  <body class="p-3 pb-0 bg-transparent roboto-regular">
     <div class="stf-main-div">
       <div class="topic">
         <h2>Staff mangement</h2>
@@ -112,9 +113,9 @@
                 <div class="mb-3">
                   <label for="gender" class="form-label">Gender</label>
                   <select class="form-select" id="gender" required>
-                    <option value="Male">MALE</option>
-                    <option value="Female">FEMALE</option>
-                    <option value="Other">Other</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                    <!-- <option value="Other">Other</option> -->
                   </select>
                 </div>
                 <div class="mb-3">
@@ -187,7 +188,11 @@
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-primary w-100">
+                <button
+                  type="submit"
+                  class="btn btn-primary w-100"
+                  id="staff-save-btn"
+                >
                   Add Staff
                 </button>
               </form>
@@ -221,10 +226,19 @@
                 <div class="row">
                   <!-- Name Fields -->
                   <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">Staff Id</label>
+                    <input
+                      type="text"
+                      class="form-control staff-id-text"
+                      id="firstName "
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
                     <label for="firstName" class="form-label">First Name</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control first-name-text"
                       id="firstName"
                       required
                     />
@@ -233,7 +247,7 @@
                     <label for="lastName" class="form-label">Last Name</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control last-name-text"
                       id="lastName"
                       required
                     />
@@ -245,35 +259,34 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control destination-text"
                     id="designation"
                     required
                   />
                 </div>
                 <div class="mb-3">
                   <label for="role" class="form-label">Role</label>
-                  <input type="text" class="form-control" id="role" required />
+                  <input type="text" class="form-control role-combo" id="role" required />
                 </div>
                 <div class="mb-3">
                   <label for="gender" class="form-label">Gender</label>
-                  <select class="form-select" id="gender" required>
-                    <option value="Male">MALE</option>
-                    <option value="Female">FEMALE</option>
-                    <option value="Other">Other</option>
+                  <select class="form-select gender-combo" id="gender" required>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
                   </select>
                 </div>
                 <div class="mb-3">
                   <label for="joinedDate" class="form-label">Join Date</label>
                   <input
                     type="date"
-                    class="form-control"
+                    class="form-control join-date-text"
                     id="joinedDate"
                     required
                   />
                 </div>
                 <div class="mb-3">
                   <label for="dob" class="form-label">Date of Birth</label>
-                  <input type="date" class="form-control" id="dob" required />
+                  <input type="date" class="form-control dob-text" id="dob" required />
                 </div>
                 <!-- Address Fields -->
                 <div class="mb-3">
@@ -282,7 +295,7 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control address-text1"
                     id="addressLine1"
                     required
                   />
@@ -291,25 +304,25 @@
                   <label for="addressLine2" class="form-label"
                     >Address Line 2</label
                   >
-                  <input type="text" class="form-control" id="addressLine2" />
+                  <input type="text" class="form-control address-text2" id="addressLine2" />
                 </div>
                 <div class="mb-3">
                   <label for="addressLine3" class="form-label"
                     >Address Line 3</label
                   >
-                  <input type="text" class="form-control" id="addressLine3" />
+                  <input type="text" class="form-control address-text3" id="addressLine3" />
                 </div>
                 <div class="mb-3">
                   <label for="addressLine4" class="form-label"
                     >Address Line 4</label
                   >
-                  <input type="text" class="form-control" id="addressLine4" />
+                  <input type="text" class="form-control address-text4" id="addressLine4" />
                 </div>
                 <div class="mb-3">
                   <label for="addressLine5" class="form-label"
                     >Address Line 5</label
                   >
-                  <input type="text" class="form-control" id="addressLine5" />
+                  <input type="text" class="form-control address-text5" id="addressLine5" />
                 </div>
                 <!-- Contact Fields -->
                 <div class="mb-3">
@@ -318,7 +331,7 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control join-date-text"
                     id="contactNo"
                     required
                   />
@@ -327,12 +340,12 @@
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="email"
-                    class="form-control"
+                    class="form-control email-text"
                     id="email"
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100 " id="update-btn">
                   Update Staff
                 </button>
               </form>
@@ -367,10 +380,19 @@
                 <div class="row">
                   <!-- Name Fields -->
                   <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">Staff Id</label>
+                    <input
+                      type="text"
+                      class="form-control staff-id-text"
+                      id="firstName "
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
                     <label for="firstName" class="form-label">First Name</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control first-name-text"
                       id="firstName"
                       required
                     />
@@ -379,7 +401,7 @@
                     <label for="lastName" class="form-label">Last Name</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control last-name-text"
                       id="lastName"
                       required
                     />
@@ -391,20 +413,20 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control destination-text"
                     id="designation"
                     required
                   />
                 </div>
                 <div class="mb-3">
                   <label for="role" class="form-label">Role</label>
-                  <input type="text" class="form-control" id="role" required />
+                  <input type="text" class="form-control role-combo" id="role" required />
                 </div>
                 <div class="mb-3">
                   <label for="gender" class="form-label">Gender</label>
-                  <select class="form-select" id="gender" required>
-                    <option value="Male">MALE</option>
-                    <option value="Female">FEMALE</option>
+                  <select class="form-select gender-combo" id="gender" required>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
@@ -412,14 +434,14 @@
                   <label for="joinedDate" class="form-label">Join Date</label>
                   <input
                     type="date"
-                    class="form-control"
+                    class="form-control join-date-text"
                     id="joinedDate"
                     required
                   />
                 </div>
                 <div class="mb-3">
                   <label for="dob" class="form-label">Date of Birth</label>
-                  <input type="date" class="form-control" id="dob" required />
+                  <input type="date" class="form-control dob-text" id="dob" required />
                 </div>
                 <!-- Address Fields -->
                 <div class="mb-3">
@@ -428,7 +450,7 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control address-text1"
                     id="addressLine1"
                     required
                   />
@@ -437,25 +459,28 @@
                   <label for="addressLine2" class="form-label"
                     >Address Line 2</label
                   >
-                  <input type="text" class="form-control" id="addressLine2" />
+                  <input 
+                  type="text" 
+                  class="form-control address-text2"
+                   id="addressLine2" />
                 </div>
                 <div class="mb-3">
                   <label for="addressLine3" class="form-label"
                     >Address Line 3</label
                   >
-                  <input type="text" class="form-control" id="addressLine3" />
+                  <input type="text" class="form-control address-text3" id="addressLine3" />
                 </div>
                 <div class="mb-3">
                   <label for="addressLine4" class="form-label"
                     >Address Line 4</label
                   >
-                  <input type="text" class="form-control" id="addressLine4" />
+                  <input type="text" class="form-control address-text4" id="addressLine4" />
                 </div>
                 <div class="mb-3">
                   <label for="addressLine5" class="form-label"
                     >Address Line 5</label
                   >
-                  <input type="text" class="form-control" id="addressLine5" />
+                  <input type="text" class="form-control address-text5" id="addressLine5" />
                 </div>
                 <!-- Contact Fields -->
                 <div class="mb-3">
@@ -464,7 +489,7 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control contact-text"
                     id="contactNo"
                     required
                   />
@@ -473,7 +498,7 @@
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="email"
-                    class="form-control"
+                    class="form-control email-text"
                     id="email"
                     required
                   />
@@ -497,7 +522,8 @@
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="table-body">
+          
           <tr>
             <th scope="row">1</th>
             <td>Mark</td>
@@ -648,8 +674,9 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <!-- <script>
       document
         .querySelectorAll(".table tbody .action > :nth-child(3)")
         .forEach((button) => {
@@ -668,6 +695,10 @@
             modal.show();
           });
         });
-    </script>
+    </script> -->
+    <script
+      src="/controller/wall/StaffControllerWall.js"
+      type="module"
+    ></script>
   </body>
 </html>
