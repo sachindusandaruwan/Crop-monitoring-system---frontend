@@ -57,24 +57,65 @@ export function saveStaffMember(staffData) {
     });
   }
 
+  // export function updateStaff(staff_id, staff) {
+  //   return new Promise((resolve, reject) => {
+  //     console.log("model ekata awa1")
+  //     $.ajax({
+  //       url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`,
+  //       type: "PATCH",
+  //       contentType: "application/json",
+  //       data: JSON.stringify(staff), // Send the staff data as JSON
+  //       success: function (result) {
+  //         console.log("hu hu")
+  //         console.log("Staff updated successfully:", result);
+  //         resolve(result); // Resolve the promise with the result
+  //       },
+  //       error: function (xhr, status, error) {
+  //         console.log("eee eee")
+  //         console.error("Error updating staff:", error);
+  //         reject(error); // Reject the promise with the error
+  //       },
+  //     });
+  //   });
+  // }
+  
+  
+
   export function updateStaff(staff_id, staff) {
     return new Promise((resolve, reject) => {
-      console.log("model ekata awa1")
+      console.log("Initiating staff update...");
+      
       $.ajax({
-        url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`,
-        type: "PATCH",
-        contentType: "application/json",
-        data: JSON.stringify(staff), // Send the staff data as JSON
+        url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`, // API endpoint
+        type: "PATCH", // HTTP method
+        contentType: "application/json", // Content type of the request body
+        data: JSON.stringify(staff), // Convert the `staff` object to JSON format
         success: function (result) {
-          console.log("Staff updated successfully:", result);
+          console.log("Staff updated successfully:", result); // Log success message
           resolve(result); // Resolve the promise with the result
         },
         error: function (xhr, status, error) {
-          console.error("Error updating staff:", error);
+          console.error("Error updating staff:", xhr.responseText || error); // Log detailed error information
           reject(error); // Reject the promise with the error
         },
       });
     });
   }
-  
-  
+
+  export function deleteStaff(staff_id) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`, // API endpoint
+        type: "DELETE", // HTTP method
+        contentType: "application/json", // Request content type
+        success: function (result) {
+          console.log(result); // Log the successful response
+          resolve(result); // Resolve the promise with the result
+        },
+        error: function (xhr, status, error) {
+          console.error("Error deleting staff:", error); // Log error details
+          reject(error); // Reject the promise with the error
+        },
+      });
+    });
+  }

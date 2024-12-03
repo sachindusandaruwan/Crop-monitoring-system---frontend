@@ -107,8 +107,12 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="role" class="form-label">Role</label>
-                  <input type="text" class="form-control" id="role" required />
+                  <label for="gender" class="form-label">role</label>
+                  <select class="form-select role-combo" id="role" required>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="ADMINISTRATIVE">ADMINISTRATIVE</option>
+                    <option value="SCIENTIST">SCIENTIST</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="gender" class="form-label">Gender</label>
@@ -264,9 +268,26 @@
                     required
                   />
                 </div>
+                <!-- <div class="form-floating mb-3">
+                  <select
+                    class="form-control role-combo"
+                    id="role"
+                    aria-label="Floating label select example"
+                  >
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="ADMINISTRATIVE">ADMINISTRATIVE</option>
+                    <option value="SCIENTIST">SCIENTIST</option>
+                  </select>
+                  <label for="floatingSelect">Role</label>
+                </div> -->
                 <div class="mb-3">
-                  <label for="role" class="form-label">Role</label>
-                  <input type="text" class="form-control role-combo" id="role" required />
+                  <label for="gender" class="form-label">role</label>
+                  <select class="form-select role-combo" id="role" required>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="ADMINISTRATIVE">ADMINISTRATIVE</option>
+                    <option value="SCIENTIST">SCIENTIST</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="gender" class="form-label">Gender</label>
@@ -331,7 +352,7 @@
                   >
                   <input
                     type="text"
-                    class="form-control join-date-text"
+                    class="form-control contact-text"
                     id="contactNo"
                     required
                   />

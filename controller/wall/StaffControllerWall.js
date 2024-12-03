@@ -1,4 +1,5 @@
 import {
+  deleteStaff,
   getAllStaff,
   getStaffMember,
   saveStaffMember,
@@ -19,6 +20,7 @@ $(document).ready(function () {
         modal.show(); // Show the modal
         loadDataToUpdateForm(staffId); // Load data into the update form
         targetStaffId = staffId; // Assign the target staff ID globally
+        console.log("hellow mn meka alluwa",targetStaffId)
         console.log(staffId)
       });
 
@@ -30,8 +32,16 @@ $(document).ready(function () {
     const modal = new bootstrap.Modal(modalElement); // Bootstrap modal instance
     modal.show(); // Show the modal
     targetStaffId = staffId;  // Assign the target staff ID globally
+    
     loadDataToViewForm(staffId); // Load data into the view form
     
+  });
+
+
+  $(".table tbody").on("click", ".action > :nth-child(2)", function () {
+    targetStaffId = $(this).data("id");
+    console.log(targetStaffId)
+    deleteStaffMember();
   });
 
 
@@ -56,6 +66,7 @@ $("#staff-save-btn").on("click", () => {
     addressLine5: document.getElementById("addressLine5").value,
     contactNo: document.getElementById("contactNo").value,
     email: document.getElementById("email").value,
+   
   };
   console.log(staffData);
   saveStaffMember(staffData);
@@ -195,52 +206,132 @@ function loadDataToUpdateForm(staffId) {
     });
 }
 
-$("#update-btn").click(function(){
-    const first_name = $("#updteStaffModal .first-name-text").val();
-    const last_name = $("#updteStaffModal .last-name-text").val();
-    const designation = $("#updteStaffModal .destination-text").val();
-    const join_date = $('#updteStaffModal .join-date-text').val();
-    const dob = $('#updteStaffModal .dob-text').val();
-    const gender = $('#updteStaffModal .gender-combo').val();
-    const address1 = $('#updteStaffModal .address-text1').val();
-    const address2 = $('#updteStaffModal .address-text2').val();
-    const address3 = $('#updteStaffModal .address-text3').val();
-    const address4 = $('#updteStaffModal .address-text4').val();
-    const address5 = $('#updteStaffModal .address-text5').val();
-    const contact = $('#updteStaffModal .contact-text').val();
-    const email = $('#updteStaffModal .email-text').val();
-    const role = $('#updteStaffModal .role-combo').val();
+// $("#update-btn").click(function(){
+//     const first_name = $("#updteStaffModal .first-name-text").val();
+//     const last_name = $("#updteStaffModal .last-name-text").val();
+//     const designation = $("#updteStaffModal .destination-text").val();
+//     const join_date = $('#updteStaffModal .join-date-text').val();
+//     const dob = $('#updteStaffModal .dob-text').val();
+//     const gender = $('#updteStaffModal .gender-combo').val();
+//     const address1 = $('#updteStaffModal .address-text1').val();
+//     const address2 = $('#updteStaffModal .address-text2').val();
+//     const address3 = $('#updteStaffModal .address-text3').val();
+//     const address4 = $('#updteStaffModal .address-text4').val();
+//     const address5 = $('#updteStaffModal .address-text5').val();
+//     const contact = $('#updteStaffModal .contact-text').val();
+//     const email = $('#updteStaffModal .email-text').val();
+//     const role = $('#updteStaffModal .role-combo').val();
   
     
   
-    const staff = {
-      id : "",
-      firstName: first_name,
-      lastName: last_name,
-      designation: designation,
-      gender: gender,
-      joinedDate: join_date,
-      DOB: dob,
-      addressLine1:address1,
-      addressLine2:address2,
-      addressLine3:address3,
-      addressLine4:address4,
-      addressLine5:address5,
-      contactNo: contact,
-      email: email,
-      role: role,
-    };
+    // const staff = {
+      
+    //   firstName: first_name,
+    //   lastName: last_name,
+    //   designation: designation,
+    //   gender: gender,
+    //   joinedDate: join_date,
+    //   DOB: dob,
+    //   addressLine1:address1,
+    //   addressLine2:address2,
+    //   addressLine3:address3,
+    //   addressLine4:address4,
+    //   addressLine5:address5,
+    //   contactNo: contact,
+    //   email: email,
+    //   role: role,
+    // };
+
+    // const staffDetails = {
+    //   firstName: "John",
+    //   lastName: "Doe",
+    //   designation: "Manager",
+    //   gender: "MALE",
+    //   joinedDate: "2022-03-15",
+    //   DOB: "1990-04-25",
+    //   addressLine1: "123 Elm St",
+    //   addressLine2: "Suite 5",
+    //   addressLine3: "Cityville",
+    //   addressLine4: "State",
+    //   addressLine5: "Country",
+    //   contactNo: "9876543210",
+    //   email: "john.doe@example.com",
+    //   role: "ADMIN",
+    // };
   
-    console.log(staff)
-    // updateStaff(targetStaffId, staff)
-    updateStaff(targetStaffId,staff)
-      .then((result) => {
-        showAlerts("Staff updated successfully", "success");
-        loadTable();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // console.log(staffDetails)
+    // // updateStaff(targetStaffId, staff)
+    // updateStaff(targetStaffId,staffDetails)
+    //   .then((result) => {
+    //     showAlerts("Staff updated successfully", "success");
+    //     loadTable();
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     
-  });
+
+
+    $("#update-btn").click(function (event) {
+      event.preventDefault(); // Prevent the default form submission
+    
+      // const staffId = $(".staff-id-text").val(); // Staff ID
+      const firstName = $(".first-name-text").val();
+      const lastName = $(".last-name-text").val();
+      const designation = $(".destination-text").val();
+      const role = $(".role-combo").val();
+      const gender = $(".gender-combo").val();
+      const joinedDate = $(".join-date-text").val();
+      const dob = $(".dob-text").val();
+      const addressLine1 = $(".address-text1").val();
+      const addressLine2 = $(".address-text2").val();
+      const addressLine3 = $(".address-text3").val();
+      const addressLine4 = $(".address-text4").val();
+      const addressLine5 = $(".address-text5").val();
+      const contactNo = $(".join-date-text").val();
+      const email = $(".email-text").val();
+    
+      // Assign values to the staff object
+      const staff = {
+         // Include staff ID if necessary
+        firstName: firstName,
+        lastName: lastName,
+        designation: designation,
+        role: role,
+        gender: gender,
+        joinedDate: joinedDate,
+        DOB: dob,
+        addressLine1: addressLine1,
+        addressLine2: addressLine2,
+        addressLine3: addressLine3,
+        addressLine4: addressLine4,
+        addressLine5: addressLine5,
+        contactNo: contactNo,
+        email: email,
+      };
+    
+      console.log(staff); // Log the object to check the values
+    
+      // Call your `updateStaff` function
+      updateStaff(targetStaffId, staff)
+        .then((response) => {
+          alert("Staff updated successfully!");
+          console.log(response);
+        })
+        .catch((error) => {
+          alert("Failed to update staff.");
+          console.error(error);
+        });
+    });
+
+
+    function deleteStaffMember(){
+      if (confirm("Are you sure you want to delete this crop?")) {
+        deleteStaff(targetStaffId).then(() => {
+          alert("Staff Member deleted Succcessfully!");
+          location.reload();
+        });
+      }
+    }
+    
   
