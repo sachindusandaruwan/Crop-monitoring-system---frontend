@@ -1,9 +1,13 @@
+import { getCookie } from "../TokenModel.js";
+
 export function saveStaffMember(staffData) {
     return new Promise((resolve, reject) => {
       $.ajax({
         url: "http://localhost:5055/crop-monitoring-system/api/v1/staff",
         type: "POST",
-        contentType: "application/json", // Specify the content type as JSON
+        headers: {Authorization: "Bearer " + getCookie("authToken"),
+        },
+        // contentType: "application/json", // Specify the content type as JSON
         data: JSON.stringify(staffData), // Convert the staff data object to a JSON string
         success: (response) => {
           console.log("Staff member saved successfully:", response);
@@ -22,7 +26,9 @@ export function saveStaffMember(staffData) {
       $.ajax({
         url: "http://localhost:5055/crop-monitoring-system/api/v1/staff/allstaff",
         type: "GET",
-        dataType: "json", // Automatically parses JSON response
+        headers: {Authorization: "Bearer " + getCookie("authToken"),
+        },
+        // dataType: "json", // Automatically parses JSON response
         success: (response) => {
           console.log(response); // Logs the staff members
           resolve(response); // Resolves the promise with the response
@@ -43,6 +49,8 @@ export function saveStaffMember(staffData) {
       $.ajax({
         url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`,
         type: "GET",
+        headers: {Authorization: "Bearer " + getCookie("authToken"),
+        },
         contentType: "application/json",
         success: function (result) {
           console.log()
@@ -82,12 +90,15 @@ export function saveStaffMember(staffData) {
   
 
   export function updateStaff(staff_id, staff) {
+    console.log(staff_id,staff)
     return new Promise((resolve, reject) => {
       console.log("Initiating staff update...");
       
       $.ajax({
         url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`, // API endpoint
         type: "PATCH", // HTTP method
+        headers: {Authorization: "Bearer " + getCookie("authToken"),
+        },
         contentType: "application/json", // Content type of the request body
         data: JSON.stringify(staff), // Convert the `staff` object to JSON format
         success: function (result) {
@@ -107,6 +118,8 @@ export function saveStaffMember(staffData) {
       $.ajax({
         url: `http://localhost:5055/crop-monitoring-system/api/v1/staff/${staff_id}`, // API endpoint
         type: "DELETE", // HTTP method
+        headers: {Authorization: "Bearer " + getCookie("authToken"),
+        },
         contentType: "application/json", // Request content type
         success: function (result) {
           console.log(result); // Log the successful response

@@ -39,8 +39,6 @@
         >
           Add Staff
         </button>
-
-        
       </div>
 
       <!-- Modal for Adding New Equipment -->
@@ -74,33 +72,48 @@
                     >
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control equ-name-text"
                       id="firstName"
                       required
                     />
                   </div>
-                  <div class="col-md-6 mb-3">
+                  <!-- <div class="col-md-6 mb-3">
                     <label for="lastName" class="form-label"
                       >Equipment Type</label
                     >
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control equ-type-text"
                       id="lastName"
                       required
                     />
-                  </div>
+                  </div> -->
+
+                  <label for="designation" class="form-label">Equipment Type</label>
+                <div class="form-floating mb-3">
+                  
+                  <select
+                    class="form-control equ-type-text-combo"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                  >
+                    <option value="" disabled selected>None</option>
+                    <option value="ELECTRICAL">ELECTRICAL</option>
+                    <option value="MECHANICAL">MECHANICAL</option>
+                  </select>
+                  
+                </div>
                 </div>
                 <div class="mb-3">
                   <label for="designation" class="form-label">Status</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control equ-status-text"
                     id="designation"
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="save-Equ-btn btn-primary w-100">
                   Add Equipment
                 </button>
               </form>
@@ -137,11 +150,22 @@
                   <!-- Name Fields -->
                   <div class="col-md-6 mb-3">
                     <label for="firstName" class="form-label"
+                      >Equipment Id</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control equ-id-text"
+                      id="firstName"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label"
                       >Equipment Name</label
                     >
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control equ-name-text"
                       id="firstName"
                       required
                     />
@@ -152,7 +176,7 @@
                     >
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control equ-type-text"
                       id="lastName"
                       required
                     />
@@ -162,28 +186,34 @@
                   <label for="designation" class="form-label">Status</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control equ-status-text"
                     id="designation"
                     required
                   />
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control first-name-text"
-                    id="floatingInput"
-                    placeholder=""
-                  />
-                  <label for="floatingInput">Assign Field</label>
+                  <select
+                    class="form-control field-combo"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                  >
+                    <option value="" disabled selected>None</option>
+                    <option value="Secintist">F-121213232-121212</option>
+                    <option value="User">F-3232-2323</option>
+                  </select>
+                  <label for="floatingSelect">Select a field</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control first-name-text"
-                    id="floatingInput"
-                    placeholder=""
-                  />
-                  <label for="floatingInput">Assign Staff</label>
+                  <select
+                    class="form-control staff-combo"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                  >
+                    <option value="" disabled selected>None</option>
+                    <option value="Secintist">S121213232-121212</option>
+                    <option value="User">ST-3232-2323</option>
+                  </select>
+                  <label for="floatingSelect">Select a staff member</label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">
                   Update Equipment
@@ -198,86 +228,94 @@
       <!-- start pop view -->
 
       <div
-      class="modal fade"
-      id="viewEquipmentModal"
-      tabindex="-1"
-      aria-labelledby="addStaffModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addStaffModalLabel">
-              View Equipment
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form id="staffForm">
-              <div class="row">
-               
-                <div class="col-md-6 mb-3">
-                  <label for="firstName" class="form-label"
-                    >Equipment Name</label
-                  >
+        class="modal fade"
+        id="viewEquipmentModal"
+        tabindex="-1"
+        aria-labelledby="addStaffModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addStaffModalLabel">
+                View Equipment
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="staffForm">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label"
+                      >Equipment Id</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control equ-id-text"
+                      id="firstName"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label"
+                      >Equipment Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control equ-name-text"
+                      id="firstName"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label"
+                      >Equipment Type</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control equ-type-text"
+                      id="lastName"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="designation" class="form-label">Status</label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="firstName"
+                    class="form-control equ-status-text"
+                    id="designation"
                     required
                   />
                 </div>
-                <div class="col-md-6 mb-3">
-                  <label for="lastName" class="form-label"
-                    >Equipment Type</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="lastName"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="designation" class="form-label">Status</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="designation"
-                  required
-                />
-              </div>
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control first-name-text"
-                  id="floatingInput"
-                  placeholder=""
-                />
                 <label for="floatingInput">Assign Field</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control first-name-text"
-                  id="floatingInput"
-                  placeholder=""
-                />
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control field-text"
+                    id="floatingInput"
+                    placeholder=""
+                  />
+                </div>
                 <label for="floatingInput">Assign Staff</label>
-              </div>
-              
-            </form>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control first-name-text staff-text"
+                    id="floatingInput"
+                    placeholder=""
+                  />
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
 
       <!-- end pop view -->
 
@@ -349,8 +387,9 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <!-- <script>
       document
         .querySelectorAll(".table tbody .action > :nth-child(3)")
         .forEach((button) => {
@@ -364,11 +403,17 @@
         .querySelectorAll(".table tbody .action > :nth-child(1)")
         .forEach((button) => {
           button.addEventListener("click", () => {
-            const modalElement = document.getElementById("updateEquipmentModal");
+            const modalElement = document.getElementById(
+              "updateEquipmentModal"
+            );
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
           });
         });
-    </script>
+    </script> -->
+    <script
+    src="/controller/wall/EquipmentWallController.js"
+    type="module"
+    ></script>
   </body>
 </html>

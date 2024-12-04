@@ -125,7 +125,7 @@ input:hover {
 
 .card img {
   max-width: 100%; /* Ensure the image fits within the card */
-  height: auto; /* Maintain image aspect ratio */
+  height: 300px; /* Maintain image aspect ratio */
 }
 
 /* Optional: Customize the scrollbar (for WebKit browsers) */
