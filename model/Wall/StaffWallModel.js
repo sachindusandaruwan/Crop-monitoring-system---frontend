@@ -1,11 +1,13 @@
 import { getCookie } from "../TokenModel.js";
 
 export function saveStaffMember(staffData) {
+  console.log("jjjhh  huttak da",staffData)
     return new Promise((resolve, reject) => {
       $.ajax({
         url: "http://localhost:5055/crop-monitoring-system/api/v1/staff",
         type: "POST",
-        headers: {Authorization: "Bearer " + getCookie("authToken"),
+        
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + getCookie("authToken"),
         },
         // contentType: "application/json", // Specify the content type as JSON
         data: JSON.stringify(staffData), // Convert the staff data object to a JSON string

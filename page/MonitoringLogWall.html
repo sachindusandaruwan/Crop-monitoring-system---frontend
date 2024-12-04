@@ -257,7 +257,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="addStaffModalLabel">View Crop</h5>
+              <h5 class="modal-title" id="addStaffModalLabel">View MOnitoring Log</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -270,10 +270,10 @@
                 <div class="row">
                  
                   <div class="col-md-6 mb-3">
-                    <label for="firstName" class="form-label">Field Code</label>
+                    <label for="firstName" class="form-label">Log Code</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control log-code-text"
                       id="firstName"
                       required
                     />
@@ -282,7 +282,7 @@
                     <label for="firstName" class="form-label">Crop Code</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control crop-set"
                       id="firstName"
                       required
                     />
@@ -291,23 +291,41 @@
                     <label for="lastName" class="form-label">Staff Id</label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control staff-id-text"
                       id="lastName"
                       required
                     />
                   </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Field Id</label>
+                    <input
+                      type="text"
+                      class="form-control field-set"
+                      id="lastName"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">log Date</label>
+                  <input
+                    type="text"
+                    class="form-control log-date-text"
+                    id="lastName"
+                    required
+                  />
                 </div>
 
                 <div class="mb-3">
                   <label for="addressLine1" class="form-label">Details</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control details-text"
                     id="addressLine1"
                     required
                   />
                 </div>
-                <div class="mt-3 mb-4 w-100 field-img">
+                <div class="mt-3 mb-4 w-100 observed-image">
                   <img
                     class="w-100"
                     src="/assests/WhatsApp Image 2024-10-31 at 13.54.48.jpeg"
@@ -322,7 +340,7 @@
 
       <!-- end pop view -->
 
-      <div class="card-content">
+      <div class="card-content" id="card-content">
         <div class="card" style="width: 18rem">
           <img
             src="/assests/WhatsApp Image 2024-10-31 at 13.54.48.jpeg"
@@ -390,8 +408,9 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <!-- <script>
       document.querySelectorAll(".action > :nth-child(3)").forEach((button) => {
         button.addEventListener("click", () => {
           const modalElement = document.getElementById("viewMonitoringLogModal");
@@ -406,6 +425,7 @@
           modal.show();
         });
       });
-    </script>
+    </script> -->
+    <script src="/controller/wall/MonitoringLogWall.js"  type="module"></script>
   </body>
 </html>

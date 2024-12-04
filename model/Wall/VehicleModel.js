@@ -80,3 +80,24 @@ export function getAllVehicle() {
         });
     });
 }
+
+export function updateVehicle(vehicle_id, vehicle, staff_id) {
+  console.log("staff id eka",staff_id)
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `http://localhost:5055/crop-monitoring-system/api/v1/vehicle/${vehicle_id}?staffId=${staff_id}`,
+      method: "PATCH",
+      contentType: "application/json",
+      headers: {
+        Authorization: "Bearer " + getCookie("authToken"),
+      },
+      data: JSON.stringify(vehicle),
+      success: function (result) {
+        resolve(result);
+      },
+      error: function (xhr, status, error) {
+        reject(error);
+      },
+    });
+  });
+}

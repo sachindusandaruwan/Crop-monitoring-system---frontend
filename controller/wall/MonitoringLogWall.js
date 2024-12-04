@@ -1,34 +1,25 @@
-import { deleteCrop, getAllCrops, getCrop, saveCrop } from "../../model/Wall/CropWallModel.js";
-import { checkAccess } from "../../util/AccessController.js";
+import { getCrop } from "../../model/Wall/CropWallModel.js";
+import {
+  getAllMonitoringLogs,
+  getMonitoringLog,
+} from "../../model/Wall/MonitoringLogWall.js";
+import { getStaffMember } from "../../model/Wall/StaffWallModel.js";
 
-var targetCropCode = null;
-
+var targetLogCode = "";
 
 $(document).ready(function () {
-  // Show "viewCropModal" when the 3rd child of elements with class "action" is clicked
+  // Show "viewMonitoringLogModal" when the 3rd child of elements with class "action" is clicked
   $("#card-content").on("click", ".card .action > :nth-child(3)", function () {
-    const modal = new bootstrap.Modal($("#viewCropModal")[0]);
+    const modal = new bootstrap.Modal($("#viewMonitoringLogModal")[0]);
     modal.show();
-    targetCropCode = $(this).data("id");
-    loadDataViewCrop()
+    targetLogCode = $(this).data("id");
+    loadDataToViewPopup();
   });
 
-  // Show "updteStaffModal" when the 1st child of elements with class "action" is clicked
+  // Show "updteMonitoringModal" when the 1st child of elements with class "action" is clicked
   $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
-    const modal = new bootstrap.Modal($("#updteStaffModal")[0]);
+    const modal = new bootstrap.Modal($("#updteMonitoringModal")[0]);
     modal.show();
-  });
-
-  $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
-
-    targetCropCode = $(this).data("id");
-            deleteCropFrom()
-
-    // const access = checkAccess("crop")
-    //     if (access) {
-    //         targetCropCode = $(this).data("id");
-    //         deleteCropFrom()
-    //     }
   });
 
   loadTable();
@@ -36,37 +27,32 @@ $(document).ready(function () {
 
 function loadTable() {
   const table = $("#card-content");
+  table.empty();
 
-  getAllCrops().then((result) => {
-    console.log("crop controller eke load table ekata awa", result);
-    table.empty();
-    result.forEach((crop) => {
+  getAllMonitoringLogs().then((data) => {
+    data.forEach((cropDetail) => {
       table.append(
-        `<div id="card-set" class="card" style="width: 18rem">
+        `
+      <div class="card" style="width: 18rem">
           <img
-             src=${base64ToImageURL(crop.cropImage)}
+            src=${base64ToImageURL(cropDetail.observedImage)}
             class="card-img-top"
             alt="..."
           />
           <div class="card-body">
-            <div style="text-align: center">
-              <h7>Crop Code</h7>
-              <h6>${dataRefactor(crop.cropCode, 10)}</h6>
-            </div>
-            <div style="display: flex; justify-content: space-between">
+            <div class="d-flex p-3">
               <div>
-                <h7>Crop Season</h7>
-                <h6>${dataRefactor(crop.cropSeason, 5)}</h6>
+                <h7>Log Code</h7>
+                <h6>${dataRefactor(cropDetail.logCode, 20)}</h6>
               </div>
               <div>
-                <h7>Crop Name</h7>
-                <h6>${dataRefactor(crop.cropCommonName, 8)}</h6>
+                <h7>Log Date</h7>
+                <h6>${dataRefactor(cropDetail.logDate, 10)}</h6>
               </div>
             </div>
-
             <div style="align-items: center; justify-items: center">
               <div class="action d-flex gap-4">
-                <svg  data-id="${crop.cropCode}"
+                <svg data-id="${cropDetail.logCode}"
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="22"
@@ -78,7 +64,7 @@ function loadTable() {
                     fill="#9A9A9A"
                   />
                 </svg>
-                <svg  data-id="${crop.cropCode}"
+                <svg data-id="${cropDetail.logCode}"
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="19"
@@ -90,7 +76,7 @@ function loadTable() {
                     fill="#9A9A9A"
                   />
                 </svg>
-                <svg  data-id="${crop.cropCode}"
+                <svg data-id="${cropDetail.logCode}"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="14"
@@ -105,15 +91,11 @@ function loadTable() {
               </div>
             </div>
           </div>
-        </div>          
-              `
+        </div>
+                  `
       );
     });
   });
-}
-
-function base64ToImageURL(base64Data) {
-  return `data:image/png;base64,${base64Data}`;
 }
 
 function dataRefactor(data, maxLength) {
@@ -123,73 +105,83 @@ function dataRefactor(data, maxLength) {
   return data;
 }
 
-function loadDataViewCrop(){
-  getCrop(targetCropCode).then((crop) => {
-      console.log(crop)
-      $('#vviewCropModal .crop-code-text').val(crop.cropCode);
-      $('#viewCropModal .crop-name-text').val(crop.cropCommonName);
-      $('#viewCropModal .crop-scientific-name-text').val(crop.cropScientificName);
-      $('#viewCropModal .crop-season-text').val(crop.cropSeason);
-      $('#viewCropModal .crop-type-text').val(crop.category);
-      $('#viewCropModal .field-id-text').val(crop.fieldCode);
-      $('#viewCropModal .crop-Img').attr('src',base64ToImageURL(crop.cropImage))
-  }).catch((error) => {
-      console.error("Error loading crop data:", error);
-
-
-  });
+function base64ToImageURL(base64Data) {
+  return `data:image/png;base64,${base64Data}`;
 }
 
+function loadDataToViewPopup() {
+  getMonitoringLog(targetLogCode)
+    .then((data) => {
+      console.log(data);
+      $("#viewMonitoringLogModal .log-code-text").val(data.logCode);
+      $("#viewMonitoringLogModal .log-date-text").val(
+        dataRefactor(data.logDate, 12)
+      );
+      $("#viewMonitoringLogModal .details-text").val(data.observation);
+      $("#viewMonitoringLogModal .observed-image").attr(
+        "src",
+        base64ToImageURL(data.observedImage)
+      );
+      $("#viewMonitoringLogModal .crop-set").val(data.cropCodes);
+      $("#viewMonitoringLogModal .field-set").val(data.fieldCodes);
+      $("#viewMonitoringLogModal .staff-id-text").val(data.staffIds);
 
-function deleteCropFrom(){
+      const filedSet = $("#viewMonitoringLogModal .field-set");
 
-  if (confirm("Are you sure you want to delete this crop?")) {
-    deleteCrop(targetCropCode).then(() => {
-      alert("Equipment deleted Succcessfully!");
-      location.reload();
-    });
-  }
-  
-}
+      filedSet.empty();
 
-
-$('#saveCropModal .save-crop-btn').click(function () {
-  const cropName = $('#saveCropModal .crop-name-text').val();
-  const cropScientificName = $('#saveCropModal .crop-scientific-text').val();
-  const cropSeason = $('#saveCropModal .crop-session-text').val();
-  const cropType = $('#saveCropModal .crop-type-text').val();
-  const image = $('#saveCropModal .img-input')[0];
-  const fieldCode = $('#saveCropModal .field-combo').val()
-
-  const formData = new FormData();
-  formData.append("cropName", cropName);
-  formData.append("cropScientificName", cropScientificName);
-  formData.append("cropSeason", cropSeason);
-  formData.append("cropType", cropType);
-  formData.append("cropImage", image.files[0]);
-
-  console.log(image.files[0]);
-
-  // valitade karanna one
-
-  saveCrop(formData, fieldCode)
-      .then((result) => {
-          $('#saveCropModal').removeClass('d-flex');
-          alert("Crop saved successfully", "success");
-          loadTable(); // Reload the table
-      })
-      .catch((error) => {
-          console.error("Error saving crop:", error);
+      $(data.fieldCodes).each(function (index, field) {
+        getField(field)
+          .then((data) => {
+            filedSet.append(
+              `<h6>${dataRefactor(data.fieldName, 10)} - ${dataRefactor(
+                field,
+                10
+              )}</h6>`
+            );
+          })
+          .catch((error) => {
+            console.error("Error loading field details:", error);
+          });
       });
-});
 
-function loadDataToSavePopup(){
-  getAllField().then((result) => {
-      $('#save-crop-popup .field-combo').empty()
-      result.forEach((field) => {
-          $('#save-crop-popup .field-combo').append(
-              `<option value="${field.fieldCode}">${field.fieldCode} , ${field.fieldName}</option>`
-          )
-      })
-  })
+      const cropSet = $("#viewMonitoringLogModal .crop-set");
+      cropSet.empty();
+
+      $(data.cropCodes).each(function (index, crop) {
+        getCrop(crop)
+          .then((data) => {
+            cropSet.append(
+              `<h6>${dataRefactor(data.cropCommonName, 10)} - ${dataRefactor(
+                crop,
+                10
+              )}</h6>`
+            );
+          })
+          .catch((error) => {
+            console.error("Error loading crop details:", error);
+          });
+      });
+
+      const staffSet = $("#viewMonitoringLogModal .staff-set");
+      staffSet.empty();
+
+      $(data.staffIds).each(function (index, staff) {
+        getStaffMember(staff)
+          .then((data) => {
+            staffSet.append(
+              `<h6>${dataRefactor(data.firstName, 10)} - ${dataRefactor(
+                staff,
+                10
+              )}</h6>`
+            );
+          })
+          .catch((error) => {
+            console.error("Error loading staff details:", error);
+          });
+      });
+    })
+    .catch((error) => {
+      console.error("Error loading log details:", error);
+    });
 }

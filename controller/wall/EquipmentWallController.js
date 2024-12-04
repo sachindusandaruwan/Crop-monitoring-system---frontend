@@ -4,6 +4,7 @@ import {
   getEqu,
   saveEqu,
 } from "../../model/Wall/EquipmentWallModel.js";
+import { getAllFields } from "../../model/Wall/FieldWallModel.js";
 import { getAllStaff } from "../../model/Wall/StaffWallModel.js";
 
 var targetEquId = null;
@@ -148,6 +149,31 @@ function loadEquipmentDataForUpdate(id) {
         })
         .catch((error) => {
           console.log("Error fetching staff:", error);
+        });
+
+         // Update the field combo
+      const fieldCombo = $("#updateEquipmentModal .field-combo");
+      fieldCombo.empty(); // Clear existing options
+      const selectedFieldCode = result.fieldId === null ? "" : result.fieldCode;
+
+      fieldCombo.append(
+        `<option value="N/A" ${
+          selectedFieldCode === "" ? "selected" : ""
+        }>No one</option>`
+      );
+
+      getAllFields()
+        .then((fieldList) => {
+          $.each(fieldList, function (index, field) {
+            fieldCombo.append(
+              `<option value="${field.fieldCode}" ${
+                field.fieldCode === selectedFieldCode ? "selected" : "No one"
+              }>${field.fieldCode} , ${field.fieldName}</option>`
+            );
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching fields:", error);
         });
 
       ///comboBox ekata field eke data tika load karana eka karanna thiye

@@ -1,5 +1,6 @@
 
-import { deleteVehi, getAllVehicle, getVehicle, saveVehi } from "../../model/Wall/VehicleModel.js";
+import { getAllStaff } from "../../model/Wall/StaffWallModel.js";
+import { deleteVehi, getAllVehicle, getVehicle, saveVehi, updateVehicle } from "../../model/Wall/VehicleModel.js";
 
 var targetVehicleCode=null;
 
@@ -13,10 +14,12 @@ $(".table tbody").on("click", ".action > :nth-child(1)", function () {
     const modalElement = document.getElementById("updteVehicleModal");
     const modal = new bootstrap.Modal(modalElement); // Bootstrap modal instance
     modal.show(); // Show the modal
-    // loadDataToUpdateForm(staffId);
-    // targetStaffId = staffId;
-    // console.log("hellow mn meka alluwa",targetStaffId)
-    // console.log(staffId)
+    targetVehicleCode = vehicleCode;
+    console.log("hellow mn meka alluwa",targetVehicleCode)
+    loadDataToUpdateForm(targetVehicleCode);
+    
+    
+   
   });
 
 
@@ -161,3 +164,68 @@ console.log(vehicle)
         
       });
 });
+
+
+
+function loadDataToUpdateForm(){
+  getVehicle(targetVehicleCode).then((result) => {
+    alert(targetVehicleCode)
+    $("#updteVehicleModal .remark-text").val(result.remarks);
+    $("#updteVehicleModal .license-plate-number").val(result.licensePlateNumber);
+    $("#updteVehicleModal .vehicle-category").val(result.vehicleCategory);
+    $("#updteVehicleModal .fuel-type").val(result.fuelType);
+    console.log(result);
+    getAllStaff().then((result) => {
+      const selecter = $('#updteVehicleModal .staff-combo');
+      selecter.empty()
+      selecter.append($("<option>").val("N/A").text("No one"));
+      $.each(result,function(index,member){
+        const option = $("<option>").val(member.id).text(member.id)
+  
+        selecter.append(option)
+      })
+    }).catch((error) => {
+      console.log(error);
+    });
+    if (result.staffId) {
+      $("#updteVehicleModal .staff-combo").val(result.staffId);
+    }
+    else {
+      $("#updteVehicleModal .staff-combo").val("");
+    }
+  }).catch((error) => {
+    console.log(error);
+  });
+  
+  
+}
+
+
+
+$("#updteVehicleModal .vehicle-update-btn").click(function () {
+  const remarkText = $("#updteVehicleModal .remark-text").val();
+  const selectValue = $("#updteVehicleModal .staff-combo").val();
+  
+
+  getVehicle(targetVehicleCode).then((result) => {
+    
+    const updateVehicleObj = {
+      licensePlateNumber: result.licensePlateNumber,
+      vehicleCategory : result.vehicleCategory,
+      fuelType : result.fuelType,
+      status : selectValue === "N/A" ? "AVAILABLE" : "NOT_AVAILABLE",
+      remarks : remarkText,
+      
+    };
+    updateVehicle(targetVehicleCode, updateVehicleObj, selectValue).then((result) => {
+      console.log(result);
+      showAlerts("Vehicle updated successfully", "success");
+      loadTable();
+    }).catch((error) => {
+      console.log(error);
+    });
+
+  }).catch((error) => {
+    console.log(error);
+  });
+})

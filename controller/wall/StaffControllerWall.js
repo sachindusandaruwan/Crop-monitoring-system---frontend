@@ -63,6 +63,7 @@ $("#staff-save-btn").on("click", () => {
     contactNo: document.getElementById("contactNo").value,
     email: document.getElementById("email").value,
   };
+  console.log("1234")
   console.log(staffData);
   saveStaffMember(staffData);
 });
@@ -188,6 +189,8 @@ function loadDataToUpdateForm(staffId) {
       $("#updteStaffModal .contact-text").val(result.contactNo);
       $("#updteStaffModal .email-text").val(result.email);
       $("#updteStaffModal .role-combo").val(result.role);
+
+      
     })
     .catch((error) => {
       console.log(error);
