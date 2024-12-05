@@ -1,50 +1,43 @@
-import { getAllFields, saveField } from "../../model/Wall/FieldWallModel.js";
+import { deleteField, getAllFields, saveField } from "../../model/Wall/FieldWallModel.js";
 
-var Longitude=null
-var Latitude=null
+var targetFieldCode = null;
+
+var Longitude = null;
+var Latitude = null;
 
 $(document).ready(function () {
-    // Show "viewCropModal" when the 3rd child of elements with class "action" is clicked
-    $("#card-content").on("click", ".card .action > :nth-child(3)", function () {
-      const modal = new bootstrap.Modal($("#viewFieldModal")[0]);
-      modal.show();
+  // Show "viewCropModal" when the 3rd child of elements with class "action" is clicked
+  $("#card-content").on("click", ".card .action > :nth-child(3)", function () {
+    const modal = new bootstrap.Modal($("#viewFieldModal")[0]);
+    modal.show();
     //   targetCropCode = $(this).data("id");
     //   loadDataViewCrop()
-    });
-  
-    // Show "updteStaffModal" when the 1st child of elements with class "action" is clicked
-    $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
-      const modal = new bootstrap.Modal($("#updteFieldModal")[0]);
-      modal.show();
-    });
-  
-    $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
-  
-    //   targetCropCode = $(this).data("id");
-    //           deleteCropFrom()
-  
-      // const access = checkAccess("crop")
-      //     if (access) {
-      //         targetCropCode = $(this).data("id");
-      //         deleteCropFrom()
-      //     }
-    });
-  
-    loadTable();
   });
 
+  // Show "updteStaffModal" when the 1st child of elements with class "action" is clicked
+  $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
+    const modal = new bootstrap.Modal($("#updteFieldModal")[0]);
+    modal.show();
+  });
 
+  $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
+    targetFieldCode = $(this).data("id");
+    console.log(targetFieldCode)
+    deleteFieldData();
+  });
 
+  loadTable();
+});
 
-  function loadTable() {
-    const table = $("#card-content");
-  
-    getAllFields().then((result) => {
-      console.log("crop controller eke load table ekata awa", result);
-      table.empty();
-      result.forEach((field) => {
-        table.append(
-          `<div id="card-set" class="card" style="width: 18rem">
+function loadTable() {
+  const table = $("#card-content");
+
+  getAllFields().then((result) => {
+    console.log("crop controller eke load table ekata awa", result);
+    table.empty();
+    result.forEach((field) => {
+      table.append(
+        `<div id="card-set" class="card" style="width: 18rem">
             <img
                src=${base64ToImageURL(field.image1)}
               class="card-img-top"
@@ -109,159 +102,148 @@ $(document).ready(function () {
             </div>
           </div>          
                 `
-        );
-      });
+      );
     });
-  }
-  
-  function base64ToImageURL(base64Data) {
-    return `data:image/png;base64,${base64Data}`;
-  }
-  
-  function dataRefactor(data, maxLength) {
-    if (data && typeof data === "string" && data.length > maxLength) {
-      return data.substring(0, maxLength) + " ...";
-    }
-    return data;
-  }
-  
-
-
-
-  $("#saveFieldModal .save-field-btn").click(function () {
-    const fieldName = $("#saveFieldModal .fieldName-text").val();
-    const fieldSize = $("#saveFieldModal .fieldSize-text").val();
-    const image1 = $("#saveFieldModal .image-1")[0];
-    const image2 = $("#saveFieldModal .image-2")[0];
-  
-    console.log(fieldName, fieldSize, image1.files[0], image2.files[0]);
-    console.log(Longitude, Latitude);
-    const formData = new FormData();
-    formData.append("fieldName", fieldName);
-    formData.append("fieldSize", fieldSize);
-    formData.append("image1", image1.files[0]);
-    formData.append("image2", image2.files[0]);
-    formData.append("fieldLocationX", Longitude);
-    formData.append("fieldLocationY", Latitude);
-    console.log(formData);
-  
-    if (!validateForm(fieldName, fieldSize, image1, image2)) {
-      return;
-    }
-  
-    saveField(formData)
-      .then((result) => {
-        loadTable();
-        alert("Field saved successfully", "success");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   });
-  
-  function validateForm(fieldName, fieldSize, image1, image2) {
-    if (!fieldName) {
-      alert("Field Name is required", "error");
-      return false;
-    }
-  
-    if (!fieldSize) {
-      alert("Field Size is required", "error");
-      return false;
-    }
-    if (isNaN(fieldSize) || fieldSize <= 0) {
-      alert("Field Size must be a positive number", "error");
-      return false;
-    }
-  
-    if (!image1.files || image1.files.length === 0) {
-      alert("Image 1 is required", "error");
-      return false;
-    }
-    if (!isValidImage(image1.files[0])) {
-      alert(
-        "Image 1 must be a valid image file (JPG, PNG, or GIF)",
-        "error"
-      );
-      return false;
-    }
-  
-    if (!image2.files || image2.files.length === 0) {
-      alert("Image 2 is required", "error");
-      return false;
-    }
-    if (!isValidImage(image2.files[0])) {
-      alert(
-        "Image 2 must be a valid image file (JPG, PNG, or GIF)",
-        "error"
-      );
-      return false;
-    }
-  
-    return true;
+}
+
+function base64ToImageURL(base64Data) {
+  return `data:image/png;base64,${base64Data}`;
+}
+
+function dataRefactor(data, maxLength) {
+  if (data && typeof data === "string" && data.length > maxLength) {
+    return data.substring(0, maxLength) + " ...";
   }
-  
-  function isValidImage(file) {
-    const allowedExtensions = ["image/jpeg", "image/png", "image/gif"];
-    return allowedExtensions.includes(file.type);
+  return data;
+}
+
+$("#saveFieldModal .save-field-btn").click(function () {
+  const fieldName = $("#saveFieldModal .fieldName-text").val();
+  const fieldSize = $("#saveFieldModal .fieldSize-text").val();
+  const image1 = $("#saveFieldModal .image-1")[0];
+  const image2 = $("#saveFieldModal .image-2")[0];
+
+  console.log(fieldName, fieldSize, image1.files[0], image2.files[0]);
+  console.log(Longitude, Latitude);
+  const formData = new FormData();
+  formData.append("fieldName", fieldName);
+  formData.append("fieldSize", fieldSize);
+  formData.append("image1", image1.files[0]);
+  formData.append("image2", image2.files[0]);
+  formData.append("fieldLocationX", Longitude);
+  formData.append("fieldLocationY", Latitude);
+  console.log(formData);
+
+  if (!validateForm(fieldName, fieldSize, image1, image2)) {
+    return;
   }
-  
 
+  saveField(formData)
+    .then((result) => {
+      loadTable();
+      alert("Field saved successfully", "success");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
+function validateForm(fieldName, fieldSize, image1, image2) {
+  if (!fieldName) {
+    alert("Field Name is required", "error");
+    return false;
+  }
 
+  if (!fieldSize) {
+    alert("Field Size is required", "error");
+    return false;
+  }
+  if (isNaN(fieldSize) || fieldSize <= 0) {
+    alert("Field Size must be a positive number", "error");
+    return false;
+  }
 
+  if (!image1.files || image1.files.length === 0) {
+    alert("Image 1 is required", "error");
+    return false;
+  }
+  if (!isValidImage(image1.files[0])) {
+    alert("Image 1 must be a valid image file (JPG, PNG, or GIF)", "error");
+    return false;
+  }
 
+  if (!image2.files || image2.files.length === 0) {
+    alert("Image 2 is required", "error");
+    return false;
+  }
+  if (!isValidImage(image2.files[0])) {
+    alert("Image 2 must be a valid image file (JPG, PNG, or GIF)", "error");
+    return false;
+  }
 
+  return true;
+}
 
+function isValidImage(file) {
+  const allowedExtensions = ["image/jpeg", "image/png", "image/gif"];
+  return allowedExtensions.includes(file.type);
+}
 
+function loadMap() {
+  let map;
+  let marker;
+  const defaultLocation = { lat: 6.0367, lng: 80.217 }; // Galle
 
+  function initMap() {
+    //alert("Map Loaded");
 
-  function loadMap() {
-    let map;
-    let marker;
-    const defaultLocation = { lat: 6.0367, lng: 80.217 }; // Galle
-  
-    function initMap() {
-      //alert("Map Loaded");
-  
-      const mapElement = $("#saveFieldModal #map")[0];
-  
-      map = new google.maps.Map(mapElement, {
-        center: defaultLocation,
-        zoom: 13,
-      });
-  
+    const mapElement = $("#saveFieldModal #map")[0];
+
+    map = new google.maps.Map(mapElement, {
+      center: defaultLocation,
+      zoom: 13,
+    });
+
+    marker = new google.maps.Marker({
+      position: defaultLocation,
+      map: map,
+    });
+
+    // Add a click listener to the map
+    google.maps.event.addListener(map, "click", function (event) {
+      const clickedLocation = event.latLng;
+
+      // Remove existing marker, if any
+      if (marker) marker.setMap(null);
+
+      // Place a new marker
       marker = new google.maps.Marker({
-        position: defaultLocation,
+        position: clickedLocation,
         map: map,
       });
-  
-      // Add a click listener to the map
-      google.maps.event.addListener(map, "click", function (event) {
-        const clickedLocation = event.latLng;
-  
-        // Remove existing marker, if any
-        if (marker) marker.setMap(null);
-  
-        // Place a new marker
-        marker = new google.maps.Marker({
-          position: clickedLocation,
-          map: map,
-        });
-  
-        Longitude = clickedLocation.lng();
-        Latitude = clickedLocation.lat();
-        alert(
-          `Latitude: ${clickedLocation.lat()}, Longitude: ${clickedLocation.lng()}`
-        );
-      });
-    }
-  
-    initMap();
+
+      Longitude = clickedLocation.lng();
+      Latitude = clickedLocation.lat();
+      alert(
+        `Latitude: ${clickedLocation.lat()}, Longitude: ${clickedLocation.lng()}`
+      );
+    });
   }
 
-  $("#add-field-btn").click(function(){
-    alert("enawa huuuu")
-    loadMap()
+  initMap();
+}
 
-  })
+$("#add-field-btn").click(function () {
+  alert("enawa huuuu");
+  loadMap();
+});
+
+function deleteFieldData() {
+  if (confirm("Are you sure you want to delete this field?")) {
+    deleteField(targetFieldCode).then(() => {
+      alert("Staff Member deleted Succcessfully!");
+      location.reload();
+    });
+  }
+}

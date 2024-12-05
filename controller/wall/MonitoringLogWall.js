@@ -1,11 +1,17 @@
-import { getCrop } from "../../model/Wall/CropWallModel.js";
+import { getAllCrops, getCrop } from "../../model/Wall/CropWallModel.js";
+import { getAllFields } from "../../model/Wall/FieldWallModel.js";
 import {
+  deleLog,
   getAllMonitoringLogs,
   getMonitoringLog,
 } from "../../model/Wall/MonitoringLogWall.js";
-import { getStaffMember } from "../../model/Wall/StaffWallModel.js";
+import { getAllStaff, getStaffMember } from "../../model/Wall/StaffWallModel.js";
 
 var targetLogCode = "";
+var selectCrop = []
+var selectField = []
+var selectStaff = []
+
 
 $(document).ready(function () {
   // Show "viewMonitoringLogModal" when the 3rd child of elements with class "action" is clicked
@@ -20,6 +26,11 @@ $(document).ready(function () {
   $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
     const modal = new bootstrap.Modal($("#updteMonitoringModal")[0]);
     modal.show();
+  });
+
+  $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
+    targetLogCode = $(this).data("id");
+    deleteLog();
   });
 
   loadTable();
@@ -185,3 +196,58 @@ function loadDataToViewPopup() {
       console.error("Error loading log details:", error);
     });
 }
+
+function deleteLog() {
+
+  if (confirm("Are you sure you want to delete this Log?")) {
+      deleLog(targetLogCode).then(() => {
+      alert("Log deleted Succcessfully!");
+      location.reload();
+    });
+  }
+  
+}
+
+$("#add-monitoringLog-btn").click(function () {
+  alert("enawa huuuu");
+  loadDataToSavePopup();
+
+});
+
+function loadDataToSavePopup() {
+  getAllFields().then((data) => {
+      const fieldCombo = $('#saveMonitoringLogModal .field-combo');
+      data.forEach((field) => {
+          fieldCombo.append(
+              `<option value="${field.fieldCode}">${field.fieldCode} - ${field.fieldName}</option>`
+          );
+      });
+  }).catch((error) => {
+      console.error("Error loading fields:", error);
+  });
+
+  getAllCrops().then((data) => {
+      const cropCombo = $('#saveMonitoringLogModal .crop-combo');
+      data.forEach((crop) => {
+          cropCombo.append(
+              `<option value="${crop.cropCode}">${crop.cropCode} - ${crop.cropCommonName}</option>`
+          );
+      });
+  }).catch((error) => {
+      console.error("Error loading crops:", error);
+  })
+
+  getAllStaff().then((data) => {
+      const staffCombo = $('#saveMonitoringLogModal .staff-combo');
+      data.forEach((staff) => {
+          staffCombo.append(
+              `<option value="${staff.id}">${staff.id} - ${staff.firstName}</option>`
+          );
+      });
+  }).catch((error) => {
+      console.error("Error loading staff:", error);
+  })
+}
+
+
+

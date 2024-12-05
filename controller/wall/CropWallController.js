@@ -1,4 +1,5 @@
-import { deleteCrop, getAllCrops, getCrop, saveCrop } from "../../model/Wall/CropWallModel.js";
+import { deleteCrop, getAllCrops, getCrop, saveCrop, updateCrop } from "../../model/Wall/CropWallModel.js";
+import { getAllFields } from "../../model/Wall/FieldWallModel.js";
 import { checkAccess } from "../../util/AccessController.js";
 
 var targetCropCode = null;
@@ -15,8 +16,10 @@ $(document).ready(function () {
 
   // Show "updteStaffModal" when the 1st child of elements with class "action" is clicked
   $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
-    const modal = new bootstrap.Modal($("#updteStaffModal")[0]);
+    const modal = new bootstrap.Modal($("#updteCropfModal")[0]);
     modal.show();
+    targetCropCode = $(this).data("id");
+    loadCropDataToUpdatePopup(targetCropCode);
   });
 
   $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
@@ -152,14 +155,50 @@ function deleteCropFrom(){
   
 }
 
+$("#crop-add-btn").click(function(){
+  loadDataToSavePopup();
+})
 
+function loadDataToSavePopup() {
+  getAllFields()
+      .then((result) => {
+          const fieldCombo = $('#saveCropModal .field-combo');
+          fieldCombo.empty(); // Clear existing options
+          if (result.length === 0) {
+              fieldCombo.append('<option>No fields available</option>');
+          } else {
+              fieldCombo.append(
+                 `<option value="N/A">none</option>`
+              )
+              result.forEach((field) => {
+                  fieldCombo.append(
+                      `<option value="${field.fieldCode}">${field.fieldCode} , ${field.fieldName}</option>`
+                  );
+              });
+          }
+      })
+      .catch((error) => {
+          console.error("Error loading fields:", error);
+          alert("Failed to load fields. Please try again later.");
+      });
+}
 $('#saveCropModal .save-crop-btn').click(function () {
-  const cropName = $('#saveCropModal .crop-name-text').val();
-  const cropScientificName = $('#saveCropModal .crop-scientific-text').val();
-  const cropSeason = $('#saveCropModal .crop-session-text').val();
-  const cropType = $('#saveCropModal .crop-type-text').val();
+  const cropName = $('#saveCropModal .crop-name-text').val().trim();
+  const cropScientificName = $('#saveCropModal .crop-scientific-text').val().trim();
+  const cropSeason = $('#saveCropModal .crop-session-text').val().trim();
+  const cropType = $('#saveCropModal .crop-type-text').val().trim();
   const image = $('#saveCropModal .img-input')[0];
-  const fieldCode = $('#saveCropModal .field-combo').val()
+  const fieldCode = $('#saveCropModal .field-combo').val();
+
+  if (!cropName || !cropScientificName || !cropSeason || !cropType || !fieldCode) {
+      alert("Please fill out all fields.");
+      return;
+  }
+
+  if (!image.files[0]) {
+      alert("Please select an image.");
+      return;
+  }
 
   const formData = new FormData();
   formData.append("cropName", cropName);
@@ -167,10 +206,6 @@ $('#saveCropModal .save-crop-btn').click(function () {
   formData.append("cropSeason", cropSeason);
   formData.append("cropType", cropType);
   formData.append("cropImage", image.files[0]);
-
-  console.log(image.files[0]);
-
-  // valitade karanna one
 
   saveCrop(formData, fieldCode)
       .then((result) => {
@@ -183,13 +218,82 @@ $('#saveCropModal .save-crop-btn').click(function () {
       });
 });
 
-function loadDataToSavePopup(){
-  getAllField().then((result) => {
-      $('#save-crop-popup .field-combo').empty()
-      result.forEach((field) => {
-          $('#save-crop-popup .field-combo').append(
-              `<option value="${field.fieldCode}">${field.fieldCode} , ${field.fieldName}</option>`
-          )
+
+
+
+function loadCropDataToUpdatePopup(cropCode) {
+  getCrop(cropCode).then((crop) => {
+      $('#updteCropfModal .crop-name-text').val(crop.cropCommonName);
+      $('#updteCropfModal .crop-type-text').val(crop.category);
+      $('#updteCropfModal .crop-scientific-text').val(crop.cropScientificName);
+      $('#updteCropfModal .crop-session-text').val(crop.cropSeason);
+      $('#updteCropfModal .field-combo').val(crop.fieldCode).select();
+
+      const file = base64ToFile(base64ToImageURL(crop.cropImage), "crop-image.png");
+      console.log(file);
+
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      $('#updteCropfModal .img-input')[0].files = dataTransfer.files;
+
+
+      getAllFields().then((result) => {
+          $('#updteCropfModal .field-combo').empty()
+          result.forEach((field) => {
+              $('#updteCropfModal .field-combo').append(
+                  `<option value="${field.fieldCode}">${field.fieldCode} , ${field.fieldName}</option>`
+              )
+          })
+      }).catch((error) => {
+          console.error("Error loading field data:", error);
       })
-  })
+
+  }).catch((error) => {
+      console.error("Error loading crop data:", error);
+  });
 }
+
+function base64ToFile(base64String, fileName) {
+  const arr = base64String.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], fileName, { type: mime });
+}
+
+$('#updteCropfModal .crop_update_btn').click(function () {
+  const cropName = $('#updteCropfModal .crop-name-text').val();
+  const cropScientificName = $('#updteCropfModal .crop-scientific-text').val();
+  const cropSeason = $('#updteCropfModal .crop-session-text').val();
+  const cropType = $('#updteCropfModal .crop-type-text').val();
+  const image = $('#updteCropfModal .img-input')[0];
+  const fieldCode = $('#updteCropfModal .field-combo').val();
+
+  const formData = new FormData();
+  formData.append("cropName", cropName);
+  formData.append("cropType", cropType);
+  formData.append("cropSeason", cropSeason);
+  formData.append("cropScientificName", cropScientificName);
+  formData.append("cropImage", image.files[0]);
+  formData.append("fieldCode", fieldCode);
+
+  // if (!validateCrop(cropName, cropScientificName, cropSeason, cropType, image)) {
+  //     return;
+  // }
+
+  updateCrop(targetCropCode, formData)
+      .then((result) => {
+          $('#updteCropfModal').removeClass('d-flex');
+          showAlerts("Crop updated successfully", "success");
+          loadTable(); // Reload the table
+      })
+      .catch((error) => {
+          console.error("Error updating crop:", error);
+      });
+});

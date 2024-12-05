@@ -81,3 +81,25 @@ export function saveCrop(crop, field_code) {
         });
     });
 }
+
+export function updateCrop(cropCode, formData) {
+    console.log("huuu",formData,"jdkdj",cropCode)
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `http://localhost:5055/crop-monitoring-system/api/v1/crop/${cropCode}`,
+            type: "PATCH",
+            headers: {
+              Authorization: "Bearer " + getCookie("authToken"),
+            },
+            data: formData,
+            processData: false, // Prevent jQuery from processing the data
+            contentType: false, // Let the browser set the Content-Type
+            success: function(result) {
+                resolve(result);
+            },
+            error: function(xhr, status, error) {
+                reject(xhr.responseText || error);
+            }
+        });
+    });
+}

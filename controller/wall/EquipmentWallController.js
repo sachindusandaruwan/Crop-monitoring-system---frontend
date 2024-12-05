@@ -50,13 +50,13 @@ $(document).ready(function () {
 function loadTable() {
   console.log("Loading equipment table...");
 
-  let resultSet=getAllEquipment();
-  console.log(resultSet)
+  let resultSet = getAllEquipment();
+  console.log(resultSet);
   getAllEquipment()
     .then((result) => {
       const tableBody = $(".table tbody");
       tableBody.empty(); // Clear existing rows
-      console.log("walayooooo ",result)
+      console.log("walayooooo ", result);
       result.forEach((equipment) => {
         tableBody.append(`
           <tr>
@@ -151,7 +151,7 @@ function loadEquipmentDataForUpdate(id) {
           console.log("Error fetching staff:", error);
         });
 
-         // Update the field combo
+      // Update the field combo
       const fieldCombo = $("#updateEquipmentModal .field-combo");
       fieldCombo.empty(); // Clear existing options
       const selectedFieldCode = result.fieldId === null ? "" : result.fieldCode;
@@ -175,8 +175,6 @@ function loadEquipmentDataForUpdate(id) {
         .catch((error) => {
           console.log("Error fetching fields:", error);
         });
-
-      ///comboBox ekata field eke data tika load karana eka karanna thiye
     })
     .catch((error) => {
       console.log(error);
@@ -214,31 +212,30 @@ function deleteEquipment(targetEquId) {
   }
 }
 
-
 // Event listener for the Save button in the Add Equipment Modal
 $("#addEquipmentModal .save-Equ-btn").click(function () {
-    // Get input values from the modal
-    const name = $("#addEquipmentModal .equ-name-text").val();
-    const type = $("#addEquipmentModal .equ-type-text-combo").val();
-    const status = "AVAILABLE"; // Assuming 'AVAILABLE' is a predefined status
+  // Get input values from the modal
+  const name = $("#addEquipmentModal .equ-name-text").val();
+  const type = $("#addEquipmentModal .equ-type-text-combo").val();
+  const status = "AVAILABLE"; // Assuming 'AVAILABLE' is a predefined status
 
-    // Create the equipment object
-    const equ = {
-        name: name,
-        type: type,
-        status: status,
-    };
+  // Create the equipment object
+  const equ = {
+    name: name,
+    type: type,
+    status: status,
+  };
 
-    // Call the saveEqu function to save the equipment
-    saveEqu(equ)
-        .then((result) => {
-            // Reload the table and show success alert if the save operation is successful
-            loadTable();
-            showAlerts("Equipment saved successfully", "success");
-        })
-        .catch((error) => {
-            // Log error if the save operation fails
-            console.error("Error saving equipment:", error);
-            showAlerts("Failed to save equipment. Please try again.", "error");
-        });
+  // Call the saveEqu function to save the equipment
+  saveEqu(equ)
+    .then((result) => {
+      // Reload the table and show success alert if the save operation is successful
+      loadTable();
+      showAlerts("Equipment saved successfully", "success");
+    })
+    .catch((error) => {
+      // Log error if the save operation fails
+      console.error("Error saving equipment:", error);
+      showAlerts("Failed to save equipment. Please try again.", "error");
+    });
 });
