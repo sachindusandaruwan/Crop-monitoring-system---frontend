@@ -3,6 +3,7 @@ import {
   getAllEquipment,
   getEqu,
   saveEqu,
+  updateEqu,
 } from "../../model/Wall/EquipmentWallModel.js";
 import { getAllFields } from "../../model/Wall/FieldWallModel.js";
 import { getAllStaff } from "../../model/Wall/StaffWallModel.js";
@@ -20,7 +21,7 @@ $(document).ready(function () {
     modal.show();
     targetEquId = equipmentId;
     // Call a function to populate the form with equipment data
-    loadEquipmentDataForUpdate(equipmentId);
+    loadDataToUpdate(targetEquId);
   });
 
   $(".table tbody").on("click", ".action > :nth-child(3)", function () {
@@ -237,5 +238,97 @@ $("#addEquipmentModal .save-Equ-btn").click(function () {
       // Log error if the save operation fails
       console.error("Error saving equipment:", error);
       showAlerts("Failed to save equipment. Please try again.", "error");
+    });
+});
+
+
+function loadDataToUpdate(targetEquId) {
+  // Fetch equipment details by targetId
+  getEqu(targetEquId)
+    .then((result) => {
+      // Update equipment details in the popup
+      $("#updateEquipmentModal .equ-name-text").val(result.name);
+      $("#updateEquipmentModal .equ-type-text").val(result.type);
+
+      // Update the staff combo
+      const staffCombo = $("#updateEquipmentModal .staff-combo");
+      staffCombo.empty(); // Clear existing options
+      const selectedStaffId = result.staffId === null ? "" : result.staffId;
+
+      staffCombo.append(
+        `<option value="N/A" ${
+          selectedStaffId === "" ? "selected" : ""
+        }>No one</option>`
+      );
+
+      getAllStaff()
+        .then((staffList) => {
+          // Populate staff options
+          $.each(staffList, function (index, staff) {
+            staffCombo.append(
+              `<option value="${staff.id}" ${
+                staff.id === selectedStaffId ? "selected" : ""
+              }>${staff.id} , ${staff.firstName}</option>`
+            );
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching staff:", error);
+        });
+
+      // Update the field combo
+      const fieldCombo = $("#updateEquipmentModal .field-combo");
+      fieldCombo.empty(); // Clear existing options
+      const selectedFieldCode = result.fieldId === null ? "" : result.fieldCode;
+
+      fieldCombo.append(
+        `<option value="N/A" ${
+          selectedFieldCode === "" ? "selected" : ""
+        }>No one</option>`
+      );
+
+      getAllFields()
+        .then((fieldList) => {
+          $.each(fieldList, function (index, field) {
+            fieldCombo.append(
+              `<option value="${field.fieldCode}" ${
+                field.fieldCode === selectedFieldCode ? "selected" : "No one"
+              }>${field.fieldCode} , ${field.fieldName}</option>`
+            );
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching fields:", error);
+        });
+    })
+    .catch((error) => {
+      console.log("Error fetching equipment details:", error);
+    });
+}
+
+$("#updateEquipmentModal .upade-field-btn").click(function () {
+  const equName = $("#updateEquipmentModal .equ-name-text").val();
+  const equType = $("#updateEquipmentModal .equ-type-text").val();
+  const staffId = $("#updateEquipmentModal .staff-combo").val();
+  const fieldCode = $("#updateEquipmentModal .field-combo").val();
+
+  const equ = {
+    name: equName,
+    type: equType,
+    status:
+      staffId === "N/A" && fieldCode === "N/A" ? "AVAILABLE" : "NOT_AVAILABLE",
+  };
+
+  // if (!validateEquipment(equName, equType)) {
+  //   return;
+  // }
+
+  updateEqu(equ, staffId, fieldCode, targetEquId)
+    .then((result) => {
+      loadTable();
+      alert("Equipment updated successfully", "success");
+    })
+    .catch((error) => {
+      console.log(error);
     });
 });
