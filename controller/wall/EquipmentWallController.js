@@ -7,21 +7,25 @@ import {
 } from "../../model/Wall/EquipmentWallModel.js";
 import { getAllFields } from "../../model/Wall/FieldWallModel.js";
 import { getAllStaff } from "../../model/Wall/StaffWallModel.js";
+import { checkAccess } from "../../util/AccessController.js";
 
 var targetEquId = null;
+var endpoint1 = "equipment";
 
 $(document).ready(function () {
   // Attach click event listeners for update and view actions
-  $(".table tbody").on("click", ".action > :nth-child(1)", function () {
-    const equipmentId = $(this).data("id");
-    console.log("Update action triggered for ID: ", equipmentId);
+  $(".table tbody").on("click", ".action > :nth-child(1)", async function () {
+    if (await checkAccess(endpoint1)) {
+      const equipmentId = $(this).data("id");
+      console.log("Update action triggered for ID: ", equipmentId);
 
-    const modalElement = document.getElementById("updateEquipmentModal");
-    const modal = new bootstrap.Modal(modalElement); // Initialize Bootstrap modal
-    modal.show();
-    targetEquId = equipmentId;
-    // Call a function to populate the form with equipment data
-    loadDataToUpdate(targetEquId);
+      const modalElement = document.getElementById("updateEquipmentModal");
+      const modal = new bootstrap.Modal(modalElement); // Initialize Bootstrap modal
+      modal.show();
+      targetEquId = equipmentId;
+      // Call a function to populate the form with equipment data
+      loadDataToUpdate(targetEquId);
+    }
   });
 
   $(".table tbody").on("click", ".action > :nth-child(3)", function () {
@@ -37,10 +41,12 @@ $(document).ready(function () {
     loadEquipmentDataForView(); // Load data into the view form
   });
 
-  $(".table tbody").on("click", ".action > :nth-child(2)", function () {
-    targetEquId = $(this).data("id");
-    console.log(targetEquId);
-    deleteEquipment(targetEquId);
+  $(".table tbody").on("click", ".action > :nth-child(2)", async function () {
+    if (await checkAccess(endpoint1)) {
+      targetEquId = $(this).data("id");
+      console.log(targetEquId);
+      deleteEquipment(targetEquId);
+    }
   });
 
   // Load the table data on page load
@@ -214,33 +220,34 @@ function deleteEquipment(targetEquId) {
 }
 
 // Event listener for the Save button in the Add Equipment Modal
-$("#addEquipmentModal .save-Equ-btn").click(function () {
+$("#addEquipmentModal .save-Equ-btn").click(async function () {
   // Get input values from the modal
-  const name = $("#addEquipmentModal .equ-name-text").val();
-  const type = $("#addEquipmentModal .equ-type-text-combo").val();
-  const status = "AVAILABLE"; // Assuming 'AVAILABLE' is a predefined status
+  if (await checkAccess(endpoint1)) {
+    const name = $("#addEquipmentModal .equ-name-text").val();
+    const type = $("#addEquipmentModal .equ-type-text-combo").val();
+    const status = "AVAILABLE"; // Assuming 'AVAILABLE' is a predefined status
 
-  // Create the equipment object
-  const equ = {
-    name: name,
-    type: type,
-    status: status,
-  };
+    // Create the equipment object
+    const equ = {
+      name: name,
+      type: type,
+      status: status,
+    };
 
-  // Call the saveEqu function to save the equipment
-  saveEqu(equ)
-    .then((result) => {
-      // Reload the table and show success alert if the save operation is successful
-      loadTable();
-      showAlerts("Equipment saved successfully", "success");
-    })
-    .catch((error) => {
-      // Log error if the save operation fails
-      console.error("Error saving equipment:", error);
-      showAlerts("Failed to save equipment. Please try again.", "error");
-    });
+    // Call the saveEqu function to save the equipment
+    saveEqu(equ)
+      .then((result) => {
+        // Reload the table and show success alert if the save operation is successful
+        loadTable();
+        showAlerts("Equipment saved successfully", "success");
+      })
+      .catch((error) => {
+        // Log error if the save operation fails
+        console.error("Error saving equipment:", error);
+        showAlerts("Failed to save equipment. Please try again.", "error");
+      });
+  }
 });
-
 
 function loadDataToUpdate(targetEquId) {
   // Fetch equipment details by targetId
@@ -318,10 +325,6 @@ $("#updateEquipmentModal .upade-field-btn").click(function () {
     status:
       staffId === "N/A" && fieldCode === "N/A" ? "AVAILABLE" : "NOT_AVAILABLE",
   };
-
-  // if (!validateEquipment(equName, equType)) {
-  //   return;
-  // }
 
   updateEqu(equ, staffId, fieldCode, targetEquId)
     .then((result) => {

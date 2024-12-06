@@ -54,3 +54,25 @@ export function deleLog(logCode){
         })
     })
 }
+
+export function saveCropDetails(param, cropDetails){
+    const url = `http://localhost:5055/crop-monitoring-system/api/v1/monitoringLog?fieldCodes=${param.fieldCode}&cropCodes=${param.cropCode}&staffIds=${param.staffId}`;
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            type: "POST",
+            headers: {
+                Authorization: "Bearer " + getCookie("authToken"),
+            },
+            data: cropDetails,
+            processData: false,
+            contentType: false,
+            success: function(result) {
+                resolve(result);
+            },
+            error: function(xhr, status, error) {
+                reject(error);
+            },
+        });
+    });
+}

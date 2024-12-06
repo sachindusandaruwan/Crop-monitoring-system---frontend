@@ -10,11 +10,8 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/SignUp.css">
-    <style>
-        
-      
-    </style>
+    <link rel="stylesheet" href="css/SignUp.css" />
+    <style></style>
   </head>
   <body>
     <div class="main-container">
@@ -28,7 +25,7 @@
             <div class="form-floating mb-3">
               <input
                 type="email"
-                class="form-control"
+                class="form-control email-input"
                 id="floatingInput"
                 placeholder="name@example.com"
               />
@@ -38,31 +35,37 @@
             <div class="form-floating">
               <input
                 type="password"
-                class="form-control"
+                class="form-control password-input"
                 id="floatingPassword"
                 placeholder="Password"
               />
               <label for="floatingPassword">Password</label>
             </div>
             <label for="floatingPassword"><h6>Role</h6></label>
-            <div class="form-floating">
-              <input
-                type="password"
-                class="form-control"
-                id="floatingPassword"
-                placeholder="Password"
-              />
-              <label for="floatingPassword">Role</label>
-            </div>
+            <select
+              class="form-select role-select"
+              id="floatingSelect"
+              aria-label="Floating label select example"
+            >
+              <option selected>Choose an option</option>
+              <option value="MANAGER">MANAGER</option>
+              <option value="ADMINISTRATIVE">ADMINISTRATIVE</option>
+              <option value="SCIENTIST">SCIENTIST</option>
+              <option value="OTHER">OTHER</option>
+            </select>
             <div class="login-btn-div">
-              <button class="shadow__btn">signUp</button>
+              <button class="shadow__btn" id="singup-btn">signUp</button>
             </div>
             <div class="links">
-              <h6>Already have Account ? <a href="#">Login</a></h6>
+              <h6>Already have Account ? <a href="/index.html">Login</a></h6>
             </div>
           </form>
         </div>
       </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+   
+<script src="/controller/SignUpController.js" type="module"></script>
   </body>
 </html>

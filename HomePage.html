@@ -1,61 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modern Dashboard</title>
-    <link rel="stylesheet" href="/css/HomePage.css">
+    <link rel="stylesheet" href="/css/HomePage.css" />
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="main-form">
-        <nav class="navbar">
-            <img src="assests/logo.png" alt="Logo" class="logo1" />
-            <div class="nav-iconset">
-                <img src="/assests/icon/dashBoard.png" alt="Dashboard" class="logo dashboard-icon" />
-                <img src="/assests/icon/crop.png" alt="Analytics" class="logo crop-icon" />
-                <img src="/assests/icon/equipment.png" alt="Settings" class="logo equipment-icon" />
-                <img src="/assests/icon/field.png" alt="Profile" class="logo field-icon" />
-                <img src="/assests/icon/monitoringLog.png" alt="Dashboard" class="logo monitoringLog-icon" />
-                <img src="/assests/icon/vehicle.png" alt="Analytics" class="logo vehicle-icon" />
-                <img src="/assests/icon/staff.png" alt="Settings" class="logo staff-icon" />
-            </div>
-            <div class="logout">
-                <img src="/assests/icon/logout.png" alt="Logout" class="logo" />
-                
-            </div>
-        </nav>
-        <div class="iframe-div">
-            <iframe src="page/DashBoard.html" title="Dashboard Content"></iframe>
+      <!-- <img src="/assests/background_image1.png" alt=""> -->
+      <nav class="navbar">
+        <img src="assests/logo.png" alt="Logo" class="logo1" />
+        <div class="nav-iconset">
+          <img
+            src="/assests/icon/dashBoard.png"
+            alt="Dashboard"
+            class="logo dashboard-icon"
+          />
+          <img
+            src="/assests/icon/crop.png"
+            alt="Analytics"
+            class="logo crop-icon"
+          />
+          <img
+            src="/assests/icon/equipment.png"
+            alt="Settings"
+            class="logo equipment-icon"
+          />
+          <img
+            src="/assests/icon/field.png"
+            alt="Profile"
+            class="logo field-icon"
+          />
+          <img
+            src="/assests/icon/monitoringLog.png"
+            alt="Dashboard"
+            class="logo monitoringLog-icon"
+          />
+          <img
+            src="/assests/icon/vehicle.png"
+            alt="Analytics"
+            class="logo vehicle-icon"
+          />
+          <img
+            src="/assests/icon/staff.png"
+            alt="Settings"
+            class="logo staff-icon"
+          />
         </div>
+        <div class="logout">
+          <img
+            src="/assests/icon/logout.png"
+            alt="Logout"
+            class="logo log-out-btn"
+          />
+        </div>
+      </nav>
+
+      <div class="iframe-div">
+        <iframe
+          src="page/DashBoard.html"
+          title="Dashboard Content"
+          class="iframe"
+        >
+        </iframe>
+      </div>
     </div>
     <script>
-        // Event listener for changing iframe content
-        $(".dashboard-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/DashBoard.html");
-        });
-        $(".staff-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/StaffWall.html");
-        });
-        $(".equipment-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/EquipmentWall.html");
-        });
-        $(".field-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/FieldWall.html");
-        });
-        $(".monitoringLog-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/MonitoringLogWall.html");
-        });
-        $(".vehicle-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/VehicleWall.html");
-        });
-        $(".crop-icon").on("click", function () {
-            $(".iframe-div iframe").attr("src", "/page/CropWall.html");
-        });
+      // Event listener for changing iframe content
+    //   $(".dashboard-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/DashBoard.html");
+    //   });
+    //   $(".staff-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/StaffWall.html");
+    //   });
+    //   $(".equipment-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/EquipmentWall.html");
+    //   });
+    //   $(".field-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/FieldWall.html");
+    //   });
+    //   $(".monitoringLog-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/MonitoringLogWall.html");
+    //   });
+    //   $(".vehicle-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/VehicleWall.html");
+    //   });
+    //   $(".crop-icon").on("click", function () {
+    //     $(".iframe-div iframe").attr("src", "/page/CropWall.html");
+    //   });
+    //   $(".log-out-btn").on("click", function () {
+       
+    //   });
     </script>
-</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+   
+<script src="/controller/HomePageController.js" type="module"></script>
+  </body>
 </html>

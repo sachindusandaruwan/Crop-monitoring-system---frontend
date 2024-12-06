@@ -4,14 +4,20 @@ import {
   deleLog,
   getAllMonitoringLogs,
   getMonitoringLog,
+  saveCropDetails,
 } from "../../model/Wall/MonitoringLogWall.js";
-import { getAllStaff, getStaffMember } from "../../model/Wall/StaffWallModel.js";
+import {
+  getAllStaff,
+  getStaffMember,
+} from "../../model/Wall/StaffWallModel.js";
+import { checkAccess } from "../../util/AccessController.js";
 
 var targetLogCode = "";
-var selectCrop = []
-var selectField = []
-var selectStaff = []
+var selectCrop = [];
+var selectField = [];
+var selectStaff=[];
 
+var endpoint3="log";
 
 $(document).ready(function () {
   // Show "viewMonitoringLogModal" when the 3rd child of elements with class "action" is clicked
@@ -23,14 +29,18 @@ $(document).ready(function () {
   });
 
   // Show "updteMonitoringModal" when the 1st child of elements with class "action" is clicked
-  $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
+  $("#card-content").on("click", ".card .action > :nth-child(1)",async function () {
+    if(await checkAccess(endpoint3)){
     const modal = new bootstrap.Modal($("#updteMonitoringModal")[0]);
     modal.show();
+    }
   });
 
-  $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
+  $("#card-content").on("click", ".card .action > :nth-child(2)",async function () {
+    if(await checkAccess(endpoint3)){
     targetLogCode = $(this).data("id");
     deleteLog();
+    }
   });
 
   loadTable();
@@ -198,56 +208,177 @@ function loadDataToViewPopup() {
 }
 
 function deleteLog() {
-
   if (confirm("Are you sure you want to delete this Log?")) {
-      deleLog(targetLogCode).then(() => {
+    deleLog(targetLogCode).then(() => {
       alert("Log deleted Succcessfully!");
       location.reload();
     });
   }
-  
 }
 
-$("#add-monitoringLog-btn").click(function () {
+$("#add-monitoringLog-btn").click(async function () {
+  if(await checkAccess(endpoint3)){
   alert("enawa huuuu");
   loadDataToSavePopup();
-
+  }
 });
 
 function loadDataToSavePopup() {
-  getAllFields().then((data) => {
-      const fieldCombo = $('#saveMonitoringLogModal .field-combo');
+  getAllFields()
+    .then((data) => {
+      const fieldCombo = $("#saveMonitoringLogModal .field-combo");
       data.forEach((field) => {
-          fieldCombo.append(
-              `<option value="${field.fieldCode}">${field.fieldCode} - ${field.fieldName}</option>`
-          );
+        fieldCombo.append(
+          `<option value="${field.fieldCode}">${field.fieldCode} - ${field.fieldName}</option>`
+        );
       });
-  }).catch((error) => {
+    })
+    .catch((error) => {
       console.error("Error loading fields:", error);
-  });
+    });
 
-  getAllCrops().then((data) => {
-      const cropCombo = $('#saveMonitoringLogModal .crop-combo');
+  getAllCrops()
+    .then((data) => {
+      const cropCombo = $("#saveMonitoringLogModal .crop-combo");
       data.forEach((crop) => {
-          cropCombo.append(
-              `<option value="${crop.cropCode}">${crop.cropCode} - ${crop.cropCommonName}</option>`
-          );
+        cropCombo.append(
+          `<option value="${crop.cropCode}">${crop.cropCode} - ${crop.cropCommonName}</option>`
+        );
       });
-  }).catch((error) => {
+    })
+    .catch((error) => {
       console.error("Error loading crops:", error);
-  })
+    });
 
-  getAllStaff().then((data) => {
-      const staffCombo = $('#saveMonitoringLogModal .staff-combo');
+  getAllStaff()
+    .then((data) => {
+      const staffCombo = $("#saveMonitoringLogModal .staff-combo");
       data.forEach((staff) => {
-          staffCombo.append(
-              `<option value="${staff.id}">${staff.id} - ${staff.firstName}</option>`
-          );
+        staffCombo.append(
+          `<option value="${staff.id}">${staff.id} - ${staff.firstName}</option>`
+        );
       });
-  }).catch((error) => {
+    })
+    .catch((error) => {
       console.error("Error loading staff:", error);
-  })
+    });
 }
 
+function loadSelectedDataToSave() {
+  $("#saveMonitoringLogModal .select-field-set").empty();
+  console.log(selectField)
+  selectField.forEach((field) => {
+    
+    $("#saveMonitoringLogModal .select-field-set").append(
+      `<h6 data-id="${field}">${dataRefactor(field, 20)}</h6>`
+    );
+  });
 
+  $("#saveMonitoringLogModal .select-crop-set").empty();
+  selectCrop.forEach((crop) => {
+    $("#saveMonitoringLogModal .select-crop-set").append(
+      `<h6 data-id="${crop}">${dataRefactor(crop, 20)}</h6>`
+    );
+  });
 
+  $("#saveMonitoringLogModal .select-staff-set").empty();
+  selectStaff.forEach((staff) => {
+    console.log(staff,"huuuuuuuuuuuuuuuuuuu")
+    $("#saveMonitoringLogModal .select-staff-set").append(
+      `<h6 data-id="${staff}">${dataRefactor(staff, 20)}</h6>`
+    );
+  });
+}
+
+$("#saveMonitoringLogModal .field-combo").change(function () {
+  console.log("ashen ",$(this).val())
+  selectField.push($(this).val());
+  loadSelectedDataToSave();
+  $(this).val("");
+});
+
+$("#saveMonitoringLogModal .crop-combo").change(function () {
+  selectCrop.push($(this).val());
+  loadSelectedDataToSave();
+  $(this).val("");
+});
+
+$("#saveMonitoringLogModal .staff-combo").change(function () {
+  selectStaff.push($(this).val());
+  loadSelectedDataToSave();
+  $(this).val("");
+});
+
+$("#saveMonitoringLogModal .select-field-set").on("click", "h6", function () {
+  const fieldCode = $(this).attr("data-id");
+  selectField = selectField.filter((field) => field != fieldCode);
+  console.log(selectField)
+  loadSelectedDataToSave();
+});
+
+$("#saveMonitoringLogModal .select-crop-set").on("click", "h6", function () {
+  const cropCode = $(this).attr("data-id");
+  selectCrop = selectCrop.filter((crop) => crop != cropCode);
+  loadSelectedDataToSave();
+});
+
+$("#saveMonitoringLogModal .select-staff-set").on("click", "h6", function () {
+  const staffCode = $(this).attr("data-id");
+  selectStaff = selectStaff.filter((staff) => staff != staffCode);
+  loadSelectedDataToSave();
+});
+
+$("#saveMonitoringLogModal .mon-log-btn").click(function () {
+  const observedImage = $("#saveMonitoringLogModal #file")[0];
+  const description = $("#saveMonitoringLogModal .description").val();
+
+  const formData = new FormData();
+  formData.append("observedImage", observedImage.files[0]);
+  formData.append("observation", description);
+
+  const param = {
+    fieldCode: selectField.join(","),
+    cropCode: selectCrop.join(","),
+    staffId: selectStaff.join(","),
+  };
+
+  if (!description) {
+    alert("Please enter description", "error");
+    return;
+  }
+  if (!observedImage.files[0]) {
+    alert("Please select image", "error");
+    return;
+  }
+  if (selectField.length === 0) {
+    alert("Please select field", "error");
+    return;
+  }
+  if (selectCrop.length === 0) {
+    alert("Please select crop", "error");
+    return;
+  }
+  if (selectStaff.length === 0) {
+    alert("Please select staff", "error");
+    return;
+  }
+
+  saveCropDetails(param, formData)
+    .then((data) => {
+      alert("log saved successfully", "success");
+      loadTable();
+      clearField();
+    })
+    .catch((error) => {
+      console.error("Error saving log:", error);
+    });
+});
+
+function clearField() {
+  selectCrop = [];
+  selectField = [];
+  selectStaff = [];
+  loadSelectedDataToSave();
+  $("#saveMonitoringLogModal #file")[0].value = "";
+  $("#saveMonitoringLogModal .description").val("");
+}

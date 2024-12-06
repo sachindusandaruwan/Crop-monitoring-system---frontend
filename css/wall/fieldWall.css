@@ -152,6 +152,7 @@ body{
   }
   .modal-content {
     border: 2px solid green;
+    width: 60vw;
   }
   
   .action {
@@ -219,6 +220,82 @@ body{
   
   
   
-  
-  
-  
+/* Modal styles */
+.modal .modal-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  background-color:green;
+  color: #fff;
+  border-bottom: 2px solid #0056b3;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+/* Form styles */
+.form-floating .form-control {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+
+
+.form-floating label {
+  color: #6c757d;
+}
+
+/* Table styles */
+.table {
+  border-collapse: collapse;
+  padding-top: 20px;
+}
+
+.table-head {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.table-head div {
+  padding: 8px 12px;
+}
+
+.tableBody .d-grid {
+  display: flex;
+  padding: 8px 12px;
+}
+
+.tableBody .d-grid div {
+  flex: 1;
+  text-align: left;
+  padding: 5px;
+}
+
+/* Images */
+.image-1,
+.image-2 {
+  width: 48%;
+  height: auto;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  margin-right: 4%;
+}
+
+.image-1:last-of-type {
+  margin-right: 0;
+}

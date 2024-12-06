@@ -3,6 +3,7 @@ import { getAllFields } from "../../model/Wall/FieldWallModel.js";
 import { checkAccess } from "../../util/AccessController.js";
 
 var targetCropCode = null;
+var endpoint="crop";
 
 
 $(document).ready(function () {
@@ -15,23 +16,27 @@ $(document).ready(function () {
   });
 
   // Show "updteStaffModal" when the 1st child of elements with class "action" is clicked
-  $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
-    const modal = new bootstrap.Modal($("#updteCropfModal")[0]);
-    modal.show();
-    targetCropCode = $(this).data("id");
-    loadCropDataToUpdatePopup(targetCropCode);
+  $("#card-content").on("click", ".card .action > :nth-child(1)",async function () {
+
+    if (await checkAccess(endpoint)) {
+      const modal = new bootstrap.Modal($("#updteCropfModal")[0]);
+      modal.show();
+      targetCropCode = $(this).data("id");
+      loadCropDataToUpdatePopup(targetCropCode);
+    }
+    
   });
 
-  $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
+  $("#card-content").on("click", ".card .action > :nth-child(2)",async function () {
 
-    targetCropCode = $(this).data("id");
+    if(await checkAccess(endpoint)){
+      targetCropCode = $(this).data("id");
             deleteCropFrom()
 
-    // const access = checkAccess("crop")
-    //     if (access) {
-    //         targetCropCode = $(this).data("id");
-    //         deleteCropFrom()
-    //     }
+    }
+
+    
+   
   });
 
   loadTable();
@@ -155,8 +160,10 @@ function deleteCropFrom(){
   
 }
 
-$("#crop-add-btn").click(function(){
+$("#crop-add-btn").click( async function(){
+  if(await checkAccess(endpoint)){
   loadDataToSavePopup();
+  }
 })
 
 function loadDataToSavePopup() {

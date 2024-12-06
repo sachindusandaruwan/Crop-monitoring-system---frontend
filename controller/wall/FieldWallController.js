@@ -1,29 +1,73 @@
-import { deleteField, getAllFields, saveField } from "../../model/Wall/FieldWallModel.js";
+import {
+  deleteField,
+  getAllFields,
+  getField,
+  saveField,
+  updateField,
+} from "../../model/Wall/FieldWallModel.js";
+import {
+  getAllStaff,
+  getStaffMember,
+} from "../../model/Wall/StaffWallModel.js";
+import { checkAccess } from "../../util/AccessController.js";
 
 var targetFieldCode = null;
+var selectedStaff = [];
 
 var Longitude = null;
 var Latitude = null;
+var endpoin = "field";
 
 $(document).ready(function () {
   // Show "viewCropModal" when the 3rd child of elements with class "action" is clicked
-  $("#card-content").on("click", ".card .action > :nth-child(3)", function () {
-    const modal = new bootstrap.Modal($("#viewFieldModal")[0]);
-    modal.show();
-    //   targetCropCode = $(this).data("id");
-    //   loadDataViewCrop()
+  $("#card-content").on("click", ".card .action > :nth-child(3)",  function () {
+    
+      const modal = new bootstrap.Modal($("#viewFieldModal")[0]);
+      modal.show();
+      targetFieldCode = $(this).data("id");
+      loadDataViewField();
+    
+    // const modal = new bootstrap.Modal($("#viewFieldModal")[0]);
+    // modal.show();
+
+    // alert("print  ")
+    // if(checkAccess(endpoin)){
+    //   alert("walaya maha modaya")
+    // }
+
+    // targetFieldCode = $(this).data("id");
+    // loadDataViewField();
   });
 
   // Show "updteStaffModal" when the 1st child of elements with class "action" is clicked
-  $("#card-content").on("click", ".card .action > :nth-child(1)", function () {
-    const modal = new bootstrap.Modal($("#updteFieldModal")[0]);
-    modal.show();
+  $("#card-content").on("click", ".card .action > :nth-child(1)",async function () {
+    if (await checkAccess(endpoin)) {
+      const modal = new bootstrap.Modal($("#updteFieldModal")[0]);
+      modal.show();
+
+      targetFieldCode = $(this).data("id");
+      alert("enawada apako");
+      loadDataToUpdateForm(targetFieldCode);
+    }
+
+    // const modal = new bootstrap.Modal($("#updteFieldModal")[0]);
+    // modal.show();
+
+    // targetFieldCode = $(this).data("id");
+    // alert("enawada apako");
+    // loadDataToUpdateForm(targetFieldCode);
   });
 
-  $("#card-content").on("click", ".card .action > :nth-child(2)", function () {
-    targetFieldCode = $(this).data("id");
-    console.log(targetFieldCode)
-    deleteFieldData();
+  $("#card-content").on("click", ".card .action > :nth-child(2)",async function () {
+    if (await checkAccess(endpoin)) {
+      targetFieldCode = $(this).data("id");
+      console.log(targetFieldCode);
+      deleteFieldData();
+    }
+
+    // targetFieldCode = $(this).data("id");
+    // console.log(targetFieldCode);
+    // deleteFieldData();
   });
 
   loadTable();
@@ -118,7 +162,8 @@ function dataRefactor(data, maxLength) {
   return data;
 }
 
-$("#saveFieldModal .save-field-btn").click(function () {
+$("#saveFieldModal .save-field-btn").click(async function () {
+  if(await checkAccess(endpoin)){
   const fieldName = $("#saveFieldModal .fieldName-text").val();
   const fieldSize = $("#saveFieldModal .fieldSize-text").val();
   const image1 = $("#saveFieldModal .image-1")[0];
@@ -147,6 +192,7 @@ $("#saveFieldModal .save-field-btn").click(function () {
     .catch((error) => {
       console.log(error);
     });
+  }
 });
 
 function validateForm(fieldName, fieldSize, image1, image2) {
@@ -235,6 +281,10 @@ function loadMap() {
 }
 
 $("#add-field-btn").click(function () {
+  // if(checkAccess("field")){
+  //   return
+  // }
+
   alert("enawa huuuu");
   loadMap();
 });
@@ -246,4 +296,240 @@ function deleteFieldData() {
       location.reload();
     });
   }
+}
+
+function loadDataViewField() {
+  getField(targetFieldCode)
+    .then((result) => {
+      $("#viewFieldModal .fieldCode-text").val(result.fieldCode);
+      $("#viewFieldModal .fieldName-text").val(result.fieldName);
+      $("#viewFieldModal .fieldSize-text").val(result.fieldSize);
+      $("#viewFieldModal .staff-members").val(result.staffIds);
+
+      console.log("meka nm sapayak ", result.staffIds);
+
+      $("#viewFieldModal .image-1").attr(
+        "src",
+        base64ToImageURL(result.image1)
+      );
+      $("#viewFieldModal .image-2").attr(
+        "src",
+        base64ToImageURL(result.image2)
+      );
+
+      if (
+        result.fieldLocation &&
+        result.fieldLocation.x &&
+        result.fieldLocation.y
+      ) {
+        viewLocOnMap(result.fieldLocation.x, result.fieldLocation.y, "view");
+      } else {
+        console.log("Invalid field location data.");
+      }
+
+      // Clear tableBody before appending new content
+      // $("#viewFieldModal .tableBody").empty();
+
+      // console.log("staff", result.staffIds);
+      // $.each(result.staffIds, function (index, staffIds) {
+      //   // Append placeholder
+      //   $("#viewFieldModal .tableBody").append(`
+      //           <div class="d-grid">
+      //               <div>${staffIds}</div>
+      //               <div class="border-start border-black" id="staff-${staffIds}">Loading...</div>
+      //           </div>
+      //       `);
+
+      //   // Fetch and update staff data dynamically
+      //   getStaffMember(staffId)
+      //     .then((staffResult) => {
+      //       $(`#staff-${staffId}`).text(staffResult.firstName);
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //       $(`#staff-${staffId}`).text("Error loading data");
+      //     });
+      // });
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Failed to load field data. Please try again.");
+    });
+}
+
+$("#updteFieldModal .field-update-btn").click(function () {
+  const fieldName = $("#updteFieldModal .fieldName-text").val();
+  const fieldSize = $("#updteFieldModal .fieldSize-text").val();
+  const image1 = $("#updteFieldModal .image-1")[0];
+  const image2 = $("#updteFieldModal .image-2")[0];
+
+  const formData = new FormData();
+  formData.append("fieldName", fieldName);
+  formData.append("fieldSize", fieldSize);
+  formData.append("image1", image1.files[0]);
+  formData.append("image2", image2.files[0]);
+  formData.append("fieldLocationX", Longitude);
+  formData.append("fieldLocationY", Latitude);
+
+  let staffId = "N/A";
+  if (selectedStaff.length !== 0) {
+    staffId = selectedStaff.join(",");
+  }
+
+  console.log(staffId);
+  updateField(formData, targetFieldCode, staffId)
+    .then((result) => {
+      showAlerts("Field updated successfully", "success");
+      loadTable();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+function loadDataToUpdateForm() {
+  console.log(targetFieldCode);
+  getField(targetFieldCode)
+    .then((result) => {
+      console.log(result);
+      $("#updteFieldModal .fieldName-text").val(result.fieldName);
+      $("#updteFieldModal .fieldSize-text").val(result.fieldSize);
+      Longitude = result.fieldLocation.x;
+      Latitude = result.fieldLocation.y;
+      $("#updteFieldModal .Longitude-text").val(Longitude);
+      $("#updteFieldModal .Latitude-text").val(Latitude);
+
+      const file1 = base64ToFile(base64ToImageURL(result.image1), "image1.jpg");
+      const file2 = base64ToFile(base64ToImageURL(result.image2), "image2.jpg");
+
+      const dataTransfer1 = new DataTransfer();
+      const dataTransfer2 = new DataTransfer();
+
+      dataTransfer1.items.add(file1);
+      dataTransfer2.items.add(file2);
+
+      $("#updteFieldModal .image-1")[0].files = dataTransfer1.files;
+      $("#updteFieldModal .image-2")[0].files = dataTransfer2.files;
+
+      $("#updteFieldModal .selected-staff").empty();
+      selectedStaff = result.staffIds;
+      loadSelectStaff();
+
+      getAllStaff()
+        .then((staffList) => {
+          $("#updteFieldModal .staff-combo")
+            .empty()
+            .append(`<option value="N/A">N/A</option>`);
+          staffList.forEach((staff) => {
+            $("#updteFieldModal .staff-combo").append(
+              `<option value="${staff.id}">${dataRefactor(staff.id, 15)} , ${
+                staff.firstName
+              }</option>`
+            );
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+$("#updteFieldModal .staff-combo").on("change", function () {
+  const staffId = $(this).val();
+  let alreadyAdded = false;
+
+  selectedStaff.forEach((staff) => {
+    if (staff === staffId) {
+      showAlerts("Staff member already added", "error");
+      alreadyAdded = true;
+    }
+  });
+
+  if (!alreadyAdded) {
+    selectedStaff.push(staffId);
+    $("#updteFieldModal .staff-combo").val("N/A");
+    loadSelectStaff();
+  }
+});
+
+function loadSelectStaff() {
+  $("#updteFieldModal .selected-staff").empty();
+  selectedStaff.forEach((staffId) => {
+    $("#updteFieldModal .selected-staff").append(
+      `<h6 data-id="${staffId}">${dataRefactor(staffId, 15)}</h6>`
+    );
+  });
+}
+
+$("#updteFieldModal .selected-staff").on("click", "h6", function () {
+  const staffId = $(this).attr("data-id");
+  selectedStaff = selectedStaff.filter((staff) => staff !== staffId);
+  loadSelectStaff();
+});
+
+function viewLocOnMap(Longitude, Latitude, popupType) {
+  let map;
+  let marker;
+  const defaultLocation = { lat: Latitude, lng: Longitude };
+
+  function initMap() {
+    alert("Map Loaded");
+
+    // Initialize the map with jQuery-selected DOM element
+    const mapElement =
+      popupType === "update"
+        ? $("#updteFieldModal #map")[0]
+        : $("#view-field-popup #map")[0];
+
+    map = new google.maps.Map(mapElement, {
+      center: defaultLocation,
+      zoom: 13,
+    });
+
+    marker = new google.maps.Marker({
+      position: defaultLocation,
+      map: map,
+    });
+
+    // Add a click listener to the map
+    if (popupType === "update") {
+      google.maps.event.addListener(map, "click", function (event) {
+        const clickedLocation = event.latLng;
+
+        // Remove existing marker, if any
+        if (marker) marker.setMap(null);
+
+        // Place a new marker
+        marker = new google.maps.Marker({
+          position: clickedLocation,
+          map: map,
+        });
+
+        Longitude = clickedLocation.lng();
+        Latitude = clickedLocation.lat();
+        // alert(
+        //   `Latitude: ${clickedLocation.lat()}, Longitude: ${clickedLocation.lng()}`
+        // );
+      });
+    }
+  }
+
+  initMap();
+}
+
+function base64ToFile(base64String, fileName) {
+  const arr = base64String.split(",");
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], fileName, { type: mime });
 }

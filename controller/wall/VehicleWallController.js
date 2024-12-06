@@ -1,33 +1,37 @@
-
 import { getAllStaff } from "../../model/Wall/StaffWallModel.js";
-import { deleteVehi, getAllVehicle, getVehicle, saveVehi, updateVehicle } from "../../model/Wall/VehicleModel.js";
+import {
+  deleteVehi,
+  getAllVehicle,
+  getVehicle,
+  saveVehi,
+  updateVehicle,
+} from "../../model/Wall/VehicleModel.js";
+import { checkAccess } from "../../util/AccessController.js";
 
-var targetVehicleCode=null;
+var targetVehicleCode = null;
+var endpoint2 = "vehicle";
 
 $(document).ready(function () {
-
-// Open the 'Update Staff' modal and load data
-$(".table tbody").on("click", ".action > :nth-child(1)", function () {
-    const vehicleCode = $(this).data("id");
-    console.log("id eka enawada ",vehicleCode)
-    console.log(vehicleCode) // Retrieve the staff ID
-    const modalElement = document.getElementById("updteVehicleModal");
-    const modal = new bootstrap.Modal(modalElement); // Bootstrap modal instance
-    modal.show(); // Show the modal
-    targetVehicleCode = vehicleCode;
-    console.log("hellow mn meka alluwa",targetVehicleCode)
-    loadDataToUpdateForm(targetVehicleCode);
-    
-    
-   
+  // Open the 'Update Staff' modal and load data
+  $(".table tbody").on("click", ".action > :nth-child(1)", async function () {
+    if (await checkAccess(endpoint2)) {
+      const vehicleCode = $(this).data("id");
+      console.log("id eka enawada ", vehicleCode);
+      console.log(vehicleCode); // Retrieve the staff ID
+      const modalElement = document.getElementById("updteVehicleModal");
+      const modal = new bootstrap.Modal(modalElement); // Bootstrap modal instance
+      modal.show(); // Show the modal
+      targetVehicleCode = vehicleCode;
+      console.log("hellow mn meka alluwa", targetVehicleCode);
+      loadDataToUpdateForm(targetVehicleCode);
+    }
   });
 
-
   // Open the 'Update Staff' modal and load data
-$(".table tbody").on("click", ".action > :nth-child(3)", function () {
+  $(".table tbody").on("click", ".action > :nth-child(3)", function () {
     const vehicleCode = $(this).data("id");
-    console.log("id eka enawada ",vehicleCode)
-    console.log(vehicleCode) // Retrieve the staff ID
+    console.log("id eka enawada ", vehicleCode);
+    console.log(vehicleCode); // Retrieve the staff ID
     const modalElement = document.getElementById("viewVehicleModal");
     const modal = new bootstrap.Modal(modalElement); // Bootstrap modal instance
     modal.show(); // Show the modal
@@ -36,12 +40,13 @@ $(".table tbody").on("click", ".action > :nth-child(3)", function () {
     loadVehicleDataForView(targetVehicleCode); // Load data into the view form
   });
 
-  $(".table tbody").on("click", ".action > :nth-child(2)", function () {
-    targetVehicleCode = $(this).data("id");
-    console.log(targetVehicleCode);
-    deleteVehicle(targetVehicleCode);
+  $(".table tbody").on("click", ".action > :nth-child(2)", async function () {
+    if (await checkAccess(endpoint2)) {
+      targetVehicleCode = $(this).data("id");
+      console.log(targetVehicleCode);
+      deleteVehicle(targetVehicleCode);
+    }
   });
-
 
   loadTable();
 });
@@ -66,11 +71,15 @@ function loadTable() {
               <td>${vehicle.status}</td>
               <td>
                 <div class="action d-flex gap-4 align-items-center">
-                  <svg data-id="${vehicle.vehicleCode}" width="16" height="22" viewBox="0 0 16 22" fill="none">
+                  <svg data-id="${
+                    vehicle.vehicleCode
+                  }" width="16" height="22" viewBox="0 0 16 22" fill="none">
                     <path d="M8 5V8L12 4L8 0V3C3.58 3 0 6.58 0 11C0 12.57 0.46 14.025 1.24 15.26L2.7 13.8C2.255 12.965 2 12.015 2 11C2 7.685 4.685 5 8 5ZM14.76 6.74L13.3 8.2C13.745 9.035 14 9.985 14 11C14 14.315 11.315 17 8 17V14L4 18L8 22V19C12.42 19 16 15.42 16 11C16 9.43 15.54 7.975 14.76 6.74Z" fill="#9A9A9A" />
                   </svg>
                   
-                  <svg data-id="${vehicle.vehicleCode}" width="16" height="19" viewBox="0 0 16 22" fill="none"
+                  <svg data-id="${
+                    vehicle.vehicleCode
+                  }" width="16" height="19" viewBox="0 0 16 22" fill="none"
                   
                  
                 >
@@ -79,7 +88,9 @@ function loadTable() {
                     fill="#9A9A9A"
                   />
                 </svg>
-                <svg data-id="${vehicle.vehicleCode}" width="20" height="19" viewBox="0 0 16 22" fill="none"
+                <svg data-id="${
+                  vehicle.vehicleCode
+                }" width="20" height="19" viewBox="0 0 16 22" fill="none"
                   
                 "
                 >
@@ -102,21 +113,29 @@ function loadTable() {
 
 // Helper function to refactor data, adding padding as necessary
 function dataRefactor(data, maxLength) {
-  return data.length > maxLength ? data.slice(0, maxLength) : data.padEnd(maxLength, ' ');
+  return data.length > maxLength
+    ? data.slice(0, maxLength)
+    : data.padEnd(maxLength, " ");
 }
 
 function loadVehicleDataForView(targetVehicleCode) {
   console.log("lloadVehicleDataForView id", targetVehicleCode);
   getVehicle(targetVehicleCode)
     .then((result) => {
-      console.log("enawada uuu ", result.licensePlateNumber, result.vehicleCategory);
+      console.log(
+        "enawada uuu ",
+        result.licensePlateNumber,
+        result.vehicleCategory
+      );
       $("#viewVehicleModal .vehicle-id-text").val(result.vehicleCode);
-      $("#viewVehicleModal .license-plate-number-text").val(result.licensePlateNumber);
+      $("#viewVehicleModal .license-plate-number-text").val(
+        result.licensePlateNumber
+      );
       $("#viewVehicleModal .fuel-type-text").val(result.fuelType);
       $("#viewVehicleModal .status-text").val(result.status);
       $("#viewVehicleModal .remark-text").val(result.remarks);
       $("#viewVehicleModal .vehi-category").val(result.vehicleCategory); // Fixed here
-      console.log(result.staffId)
+      console.log(result.staffId);
       $("#viewVehicleModal .staff-id-txt").val(result.staffId);
     })
     .catch((error) => {
@@ -133,99 +152,97 @@ function deleteVehicle(targetEquId) {
   }
 }
 
-$("#addVehicleModal .save-vehicle-btn").click(function () {
-  // Get input values from the modal
-  const l_p_num = $("#addVehicleModal .license-plate-number").val();
-  const v_categ = $("#addVehicleModal .vehicle-category").val();
-  const v_fuel_type = $("#addVehicleModal .fuel-type").val();
-  const remark = $("#addVehicleModal .remarks").val();
-  const availability="AVAILABLE"
- 
+$("#addVehicleModal .save-vehicle-btn").click(async function () {
+  if (await checkAccess(endpoint2)) {
+    // Get input values from the modal
+    const l_p_num = $("#addVehicleModal .license-plate-number").val();
+    const v_categ = $("#addVehicleModal .vehicle-category").val();
+    const v_fuel_type = $("#addVehicleModal .fuel-type").val();
+    const remark = $("#addVehicleModal .remarks").val();
+    const availability = "AVAILABLE";
 
-  // Create the equipment object
-  const vehicle = {
-    licensePlateNumber : l_p_num,
-    vehicleCategory: v_categ,
-    fuelType: v_fuel_type,
-    status : availability,
-    remarks : remark
-  };
-console.log(vehicle)
-  // Call the saveEqu function to save the equipment
-  saveVehi(vehicle)
+    // Create the equipment object
+    const vehicle = {
+      licensePlateNumber: l_p_num,
+      vehicleCategory: v_categ,
+      fuelType: v_fuel_type,
+      status: availability,
+      remarks: remark,
+    };
+    console.log(vehicle);
+    // Call the saveEqu function to save the equipment
+    saveVehi(vehicle)
       .then((result) => {
-          // Reload the table and show success alert if the save operation is successful
-          loadTable();
-          
+        // Reload the table and show success alert if the save operation is successful
+        loadTable();
       })
       .catch((error) => {
-          // Log error if the save operation fails
-          console.error("Error saving vehicle:", error);
-        
+        // Log error if the save operation fails
+        console.error("Error saving vehicle:", error);
       });
+  }
 });
 
+function loadDataToUpdateForm() {
+  getVehicle(targetVehicleCode)
+    .then((result) => {
+      alert(targetVehicleCode);
+      $("#updteVehicleModal .remark-text").val(result.remarks);
+      $("#updteVehicleModal .license-plate-number").val(
+        result.licensePlateNumber
+      );
+      $("#updteVehicleModal .vehicle-category").val(result.vehicleCategory);
+      $("#updteVehicleModal .fuel-type").val(result.fuelType);
+      console.log(result);
+      getAllStaff()
+        .then((result) => {
+          const selecter = $("#updteVehicleModal .staff-combo");
+          selecter.empty();
+          selecter.append($("<option>").val("N/A").text("No one"));
+          $.each(result, function (index, member) {
+            const option = $("<option>").val(member.id).text(member.id);
 
-
-function loadDataToUpdateForm(){
-  getVehicle(targetVehicleCode).then((result) => {
-    alert(targetVehicleCode)
-    $("#updteVehicleModal .remark-text").val(result.remarks);
-    $("#updteVehicleModal .license-plate-number").val(result.licensePlateNumber);
-    $("#updteVehicleModal .vehicle-category").val(result.vehicleCategory);
-    $("#updteVehicleModal .fuel-type").val(result.fuelType);
-    console.log(result);
-    getAllStaff().then((result) => {
-      const selecter = $('#updteVehicleModal .staff-combo');
-      selecter.empty()
-      selecter.append($("<option>").val("N/A").text("No one"));
-      $.each(result,function(index,member){
-        const option = $("<option>").val(member.id).text(member.id)
-  
-        selecter.append(option)
-      })
-    }).catch((error) => {
+            selecter.append(option);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      if (result.staffId) {
+        $("#updteVehicleModal .staff-combo").val(result.staffId);
+      } else {
+        $("#updteVehicleModal .staff-combo").val("");
+      }
+    })
+    .catch((error) => {
       console.log(error);
     });
-    if (result.staffId) {
-      $("#updteVehicleModal .staff-combo").val(result.staffId);
-    }
-    else {
-      $("#updteVehicleModal .staff-combo").val("");
-    }
-  }).catch((error) => {
-    console.log(error);
-  });
-  
-  
 }
-
-
 
 $("#updteVehicleModal .vehicle-update-btn").click(function () {
   const remarkText = $("#updteVehicleModal .remark-text").val();
   const selectValue = $("#updteVehicleModal .staff-combo").val();
-  
 
-  getVehicle(targetVehicleCode).then((result) => {
-    
-    const updateVehicleObj = {
-      licensePlateNumber: result.licensePlateNumber,
-      vehicleCategory : result.vehicleCategory,
-      fuelType : result.fuelType,
-      status : selectValue === "N/A" ? "AVAILABLE" : "NOT_AVAILABLE",
-      remarks : remarkText,
-      
-    };
-    updateVehicle(targetVehicleCode, updateVehicleObj, selectValue).then((result) => {
-      console.log(result);
-      showAlerts("Vehicle updated successfully", "success");
-      loadTable();
-    }).catch((error) => {
+  getVehicle(targetVehicleCode)
+    .then((result) => {
+      const updateVehicleObj = {
+        licensePlateNumber: result.licensePlateNumber,
+        vehicleCategory: result.vehicleCategory,
+        fuelType: result.fuelType,
+        status: selectValue === "N/A" ? "AVAILABLE" : "NOT_AVAILABLE",
+        remarks: remarkText,
+      };
+      updateVehicle(targetVehicleCode, updateVehicleObj, selectValue)
+        .then((result) => {
+          console.log(result);
+          showAlerts("Vehicle updated successfully", "success");
+          loadTable();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
       console.log(error);
     });
-
-  }).catch((error) => {
-    console.log(error);
-  });
-})
+});
