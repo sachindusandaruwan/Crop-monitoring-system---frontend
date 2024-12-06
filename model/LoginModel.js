@@ -8,7 +8,7 @@ export function register(email, password, role) {
   };
 
   return new Promise((resolve, reject) => {
-    alert("enawa");
+    
     $.ajax({
       url: "http://localhost:5055/crop-monitoring-system/api/v1/auth/signup",
       type: "POST",
@@ -46,7 +46,7 @@ export function login(email, password) {
 }
 
 export function getUserByEmail(email) {
-  alert("enawaaa");
+ 
   return new Promise((resolve, reject) => {
     $.ajax({
       url: `http://localhost:5055/crop-monitoring-system/api/v1/user/${email}`,

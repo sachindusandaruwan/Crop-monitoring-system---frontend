@@ -46,7 +46,7 @@ $(document).ready(function () {
       modal.show();
 
       targetFieldCode = $(this).data("id");
-      alert("enawada apako");
+      
       loadDataToUpdateForm(targetFieldCode);
     }
 
@@ -281,11 +281,7 @@ function loadMap() {
 }
 
 $("#add-field-btn").click(function () {
-  // if(checkAccess("field")){
-  //   return
-  // }
-
-  alert("enawa huuuu");
+  
   loadMap();
 });
 

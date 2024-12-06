@@ -140,7 +140,7 @@ function dataRefactor(data, maxLength) {
 }
 
 function loadDataToViewForm() {
-  console.log("mekata enawa patiyo");
+
   alert(targetStaffId);
 
   getStaffMember(targetStaffId)

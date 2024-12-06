@@ -3,7 +3,6 @@ import { getUserByEmail } from "../model/LoginModel.js";
 
 
 export async function checkAccess(endpoint){
-    alert("mala magulai mekata enawada" ,endpoint)
     
     const loginEmail = localStorage.getItem('userEmail');
     const role = await getUserByEmail(loginEmail)

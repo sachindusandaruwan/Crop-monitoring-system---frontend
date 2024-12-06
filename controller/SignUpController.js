@@ -10,7 +10,7 @@ $("#singup-btn").click(function () {
     const result = validation(email, password, role);
   
     if (result === true) {
-        alert("hiiii")
+       
       register(email, password, role)
         .then((response) => {
           const token = response.token;

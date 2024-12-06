@@ -218,7 +218,6 @@ function deleteLog() {
 
 $("#add-monitoringLog-btn").click(async function () {
   if(await checkAccess(endpoint3)){
-  alert("enawa huuuu");
   loadDataToSavePopup();
   }
 });

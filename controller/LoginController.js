@@ -7,7 +7,7 @@ $("#signInButton").click(function () {
 
   login(email, password)
     .then((response) => {
-      //alert("awaaa");
+      
       localStorage.setItem("userEmail", email);
       const token = response.token;
       saveCookie("authToken", token);

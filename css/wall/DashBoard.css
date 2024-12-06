@@ -45,3 +45,17 @@ h1 {
     max-height: 60vh; /* Restrict max size of the chart */
     margin-top: 20px;
   }
+  .datetime-display {
+    background: white;
+    /* padding: 0.5rem 1rem; */
+    border-radius: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    box-shadow: var(--card-shadow);
+}
+.dashboard-header{
+    /* background:radial-gradient(green,white); */
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 20px;
+}

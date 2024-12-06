@@ -2,7 +2,7 @@ import { getCookie } from "../TokenModel.js";
 
 export function getAllFields() {
   console.log("model eke field eke get all ekata enawa");
-  // alert("huu huuu");
+  
   return new Promise((resolve, reject) => {
     $.ajax({
       url: "http://localhost:5055/crop-monitoring-system/api/v1/field/allfield",
