@@ -1,0 +1,120 @@
+.main-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    /* background: #7faf75; */
+    background: radial-gradient(circle, #ffffff,#8fff8f);
+}
+
+
+.content-container {
+    width: 60%;
+    height: 70vh;
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.content-container img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-card {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-card form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* .shadow__btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.shadow__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.login-btn-div {
+    margin-top: 20px;
+} */
+
+/*login- From Uiverse.io by mrhyddenn */ 
+.shadow__btn {
+padding: 10px 20px;
+border: none;
+font-size: 17px;
+color: #fff;
+border-radius: 7px;
+letter-spacing: 4px;
+font-weight: 700;
+text-transform: uppercase;
+transition: 0.5s;
+transition-property: box-shadow;
+}
+
+.shadow__btn {
+background: #7FAF75;
+box-shadow: 0 0 25px #7FAF75;
+}
+
+.shadow__btn:hover {
+box-shadow: 0 0 5px #7FAF75,
+        0 0 25px #7FAF75,
+        0 0 50px #7FAF75,
+        0 0 100px #7FAF75;
+}
+.links {
+    /* text-align: center; */
+    margin-top: 20px;
+}
+
+.links a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.form-floating {
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .content-container img {
+        display: none;
+    }
+    
+    .login-card {
+        width: 100%;
+    }
+    
+    .content-container {
+        width: 95%;
+    }
+}
